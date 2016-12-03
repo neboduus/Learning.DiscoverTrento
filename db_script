@@ -1,0 +1,30 @@
+create table place(
+	id serial not null primary key,
+	name varchar(50) not null,
+	address varchar(200) not null,
+	lat double precision not null,
+	long double precision not null,
+	history text not null,
+	info text,
+	type smallint);
+
+create table event(
+	id serial not null primary key,
+	name varchar(50) not null,
+	address varchar(200),
+	data varchar(20) not null,
+	hour_range varchar(20) not null,
+	description text not null,
+	cost smallint not null,
+	place_id serial references place(id),
+	type smallint);
+
+create table news(
+	id serial not null primary key,
+	description text not null,
+	data varchar(20) not null,
+	hour varchar(20),
+	place_id serial references place(id));
+
+insert into place(name, address, lat, long, history, info, type)
+	values('Castello Buonconsiglio', 'Trento Centro', 0, 0, 'storia breve', 'aperto tutti i giorni', 0);
