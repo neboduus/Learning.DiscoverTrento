@@ -17,6 +17,11 @@
   },
   "homepage": "https://github.com/neboduus/SE2_16_173901_P#readme",
   "dependencies": {
-    "express": "^4.14.0"
+    "bind": "^0.1.7",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-session": "^1.14.2",
+    "path": "^0.12.7",
+    "pg": "^6.1.0"
   }
 }

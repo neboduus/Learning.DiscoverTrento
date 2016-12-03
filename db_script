@@ -1,3 +1,7 @@
+create table photo(
+    id serial not null primary key,
+    url varchar(200) not null);
+
 create table place(
 	id serial not null primary key,
 	name varchar(50) not null,
@@ -6,7 +10,8 @@ create table place(
 	long double precision not null,
 	history text not null,
 	info text,
-	type smallint);
+	type smallint,
+    photo_id serial references photo(id));
 
 create table event(
 	id serial not null primary key,
@@ -25,6 +30,14 @@ create table news(
 	data varchar(20) not null,
 	hour varchar(20),
 	place_id serial references place(id));
+    
+create table admin(
+    username varchar(20) primary key,
+    password varchar(20));
 
-insert into place(name, address, lat, long, history, info, type)
-	values('Castello Buonconsiglio', 'Trento Centro', 0, 0, 'storia breve', 'aperto tutti i giorni', 0);
+insert into photo(url) values('/img/discover_icon.png');
+
+insert into admin(username, password) values ('nepotu', 'calculator');
+
+insert into place(name, address, lat, long, history, info, type, photo_id)
+	values('Piazza Dante', 'Trento Centro', 0, 0, 'storia breve', 'aperto tutti i giorni', 0, 1);

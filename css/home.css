@@ -1,0 +1,15 @@
+#logo{
+    height: auto; 
+    width: auto; 
+    max-width: 30px; 
+    max-height: 30px;
+    border-bottom: 15px;
+}
+
+.navbar{
+    margin-bottom: 0px;
+}
+
+#footer_align{
+    text-align: right;
+}

@@ -4,205 +4,113 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>GETTING STARTED WITH BRACKETS</title>
-        <meta name="description" content="An interactive getting started guide for Brackets.">
-        <link rel="stylesheet" href="main.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Discover Trento Places</title>
+        <meta name="description" content="Home page of Discover Trento Web-Application">
+        <meta name="author" content="MarianDiaconu">
+        <!-- Bootstrap Default Favicon -- Have to change it-->
+        <link rel="icon" href="../../favicon.ico">
+        <!-- Bootstrap Latest compiled and minified CSS -->
+        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom styles from bootstrap -->
+        <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
     </head>
+    
     <body>
         
-        <h1>GETTING STARTED WITH BRACKETS</h1>
-        <h2>This is your guide!</h2>
-        
-        <!--
-            MADE WITH <3 AND JAVASCRIPT
-        -->
-        
-        <p>
-            Welcome to Brackets, a modern open-source code editor that understands web design. It's a lightweight,
-            yet powerful, code editor that blends visual tools into the editor so you get the right amount of help
-            when you want it.
-        </p>
-        
-        <!--
-            WHAT IS BRACKETS?
-        -->
-        <p>
-            <em>Brackets is a different type of editor.</em>
-            Brackets has some unique features like Quick Edit, Live Preview and others that you may not find in other
-            editors. Brackets is written in JavaScript, HTML and CSS. That means that most of you using Brackets
-            have the skills necessary to modify and extend the editor. In fact, we use Brackets every day to build
-            Brackets. To learn more about how to use the key features, read on.
-        </p>
-        
-        <!--
-            GET STARTED WITH YOUR OWN FILES
-        -->
-        
-        <h3>Projects in Brackets</h3>
-        <p>
-            In order to edit your own code using Brackets, you can just open the folder containing your files.
-            Brackets treats the currently open folder as a "project"; features like Code Hints, Live Preview and
-            Quick Edit only use files within the currently open folder.
-        </p>
-        
-        <samp>
-            Once you're ready to get out of this sample project and edit your own code, you can use the dropdown
-            in the left sidebar to switch folders. Right now, the dropdown says "Getting Started" - that's the
-            folder containing the file you're looking at right now. Click on the dropdown and choose "Open Folder…"
-            to open your own folder.
-            You can also use the dropdown later to switch back to folders you've opened previously, including this
-            sample project.
-        </samp>
-        
-        <!--
-            THE RELATIONSHIP BETWEEN HTML, CSS AND JAVASCRIPT
-        -->
-        <h3>Quick Edit for CSS and JavaScript</h3>
-        <p>
-            No more switching between documents and losing your context. When editing HTML, use the
-            <kbd>Cmd/Ctrl + E</kbd> shortcut to open a quick inline editor that displays all the related CSS.
-            Make a tweak to your CSS, hit <kbd>ESC</kbd> and you're back to editing HTML, or just leave the
-            CSS rules open and they'll become part of your HTML editor. If you hit <kbd>ESC</kbd> outside of
-            a quick inline editor, they'll all collapse. Quick Edit will also find rules defined in LESS and
-            SCSS files, including nested rules.
-        </p>
-        
-        <samp>
-            Want to see it in action? Place your cursor on the <!-- <samp> --> tag above and press
-            <kbd>Cmd/Ctrl + E</kbd>. You should see a CSS quick editor appear above, showing the CSS rule that
-            applies to it. Quick Edit works in class and id attributes as well. You can use it with your
-            LESS and SCSS files also.
+        <!-- Barra -->
+        <nav class="navbar navbar-inverse navbar-ficex-top" style="margin-bottom: 0px;">
+            <div class="container">
+                
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Discover Trento <small>and surroundings </small></a>
+                </div>
+                
+                <div id="navbar" class="navbar-collapse collapse">
+                    
+                    <form class="navbar-form navbar-right">    
+                        <div class="form-group">
+                            <input type="text" placeholder="Place name" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-success">Search</button>
+                        
+                        <button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                            Places
+                        </button>
+                        
+                        <button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                            Events
+                        </button>
+                        
+                        <button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                            News
+                        </button>
+                        
+                        
+                        
+                  </form>
+                    
+                </div>
+             
+            </div>
+        </nav>        
+        <!-- Main message for users -->
+        <div class="jumbotron">
+            <div class="container">
+                <div class="col-md-8">
+                    <h1>Discover Trento</h1>
+                    <p>Through this application, you can find out many places of the city of Trento and its surroundings and not only. Browse the site to find out more.</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="resize" >
+                        <img style="max-width:100%; max-height:100%;" src="../img/Trento_dall_alto.jpg">                   
+                    </div>
+                </div>
+            </div>
+        </div>
             
-            You can create new rules the same way. Click in one of the <!-- <p> --> tags above and press
-            <kbd>Cmd/Ctrl + E</kbd>. There are no rules for it right now, but you can click the New Rule
-            button to add a new rule for <!-- <p> -->.
-        </samp>
-        
-        <a href="screenshots/quick-edit.png">
-            <img alt="A screenshot showing CSS Quick Edit" src="screenshots/quick-edit.png" />
-        </a>
-        
-        <p>
-            You can use the same shortcut to edit other things as well - like functions in JavaScript,
-            colors, and animation timing functions - and we're adding more and more all the time.
-        </p>
-        <p>
-            For now inline editors cannot be nested, so you can only use Quick Edit while the cursor
-            is in a "full size" editor.
-        </p>
-        
-        <!--
-            LIVE PREVIEW
-        -->
-        <h3>Preview HTML and CSS changes live in the browser</h3>
-        <p>
-            You know that "save/reload dance" we've been doing for years? The one where you make changes in
-            your editor, hit save, switch to the browser and then refresh to finally see the result?
-            With Brackets, you don't have to do that dance.
-        </p>
-        <p>
-            Brackets will open a <em>live connection</em> to your local browser and push HTML and CSS updates as you
-            type! You might already be doing something like this today with browser-based tools, but with Brackets
-            there is no need to copy and paste the final code back into the editor. Your code runs in the
-            browser, but lives in your editor!
-        </p>
-        
-        <h3>Live Highlight HTML elements and CSS rules</h3>
-        <p>
-            Brackets makes it easy to see how your changes in HTML and CSS will affect the page. When your cursor
-            is on a CSS rule, Brackets will highlight all affected elements in the browser. Similarly, when editing
-            an HTML file, Brackets will highlight the corresponding HTML elements in the browser.
-        </p>
-        
-        <samp>
-            If you have Google Chrome installed, you can try this out yourself. Click on the lightning bolt
-            icon in the top right corner of your Brackets window or hit <kbd>Cmd/Ctrl + Alt + P</kbd>. When
-            Live Preview is enabled on an HTML document, all linked CSS documents can be edited in real-time.
-            The icon will change from gray to gold when Brackets establishes a connection to your browser.
+        <div class="container">
+        <!-- Home Page Content -->        
+            <div class="row">
+                
+                <div class="col-md-6">
+                    <h2>News</h2>
+                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                    <p><a class="btn btn-default" href="#" role="button">More News!! »</a></p>
+                </div>
+                <div class="col-md-6">
+                    <h2>Weather</h2>
+                    <iframe style="max-width:100%; max-height:100%;" src="https://www.meteoblue.com/en/weather/widget/three?geoloc=detect&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=image"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups" style="width: 460px;height: 593px"></iframe>
+                </div>
+                
+            </div>
             
-            Now, place your cursor on the <!-- <img> --> tag above. Notice the blue highlight that appears
-            around the image in Chrome. Next, use <kbd>Cmd/Ctrl + E</kbd> to open up the defined CSS rules.
-            Try changing the size of the border from 10px to 20px or change the background
-            color from "transparent" to "hotpink". If you have Brackets and your browser running side-by-side, you
-            will see your changes instantly reflected in your browser. Cool, right?
-        </samp>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Some Places to visit</h2>
+                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                    <p><a class="btn btn-default" href="#" role="button">More Places! »</a></p>
+                </div>                
+            </div>
+                       
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <footer>
+            <p style="text-align: right;">© 2016 Discover Trento, A project made by <a href="/log/">Marian Alexandru Diaconu.</a></p>
+        </footer>
         
-        <p class="note">
-            Today, Brackets only supports Live Preview for HTML and CSS. However, in the current version, changes to
-            JavaScript files are automatically reloaded when you save. We are currently working on Live Preview
-            support for JavaScript. Live previews are also only possible with Google Chrome, but we hope
-            to bring this functionality to all major browsers in the future.
-        </p>
-        
-        <h3>Quick View</h3>
-        <p>
-            For those of us who haven't yet memorized the color equivalents for HEX or RGB values, Brackets makes
-            it quick and easy to see exactly what color is being used. In either CSS or HTML, simply hover over any
-            color value or gradient and Brackets will display a preview of that color/gradient automatically. The
-            same goes for images: simply hover over the image link in the Brackets editor and it will display a
-            thumbnail preview of that image.
-        </p>
-        
-        <samp>
-            To try out Quick View for yourself, place your cursor on the <!-- <body> --> tag at the top of this
-            document and press <kbd>Cmd/Ctrl + E</kbd> to open a CSS quick editor. Now simply hover over any of the
-            color values within the CSS. You can also see it in action on gradients by opening a CSS quick editor
-            on the <!-- <html> --> tag and hovering over any of the background image values. To try out the image
-            preview, place your cursor over the screenshot image included earlier in this document.
-        </samp>
-        
-        <h3>Need something else? Try an extension!</h3>
-        <p>
-            In addition to all the goodness that's built into Brackets, our large and growing community of
-            extension developers has built hundreds of extensions that add useful functionality. If there's
-            something you need that Brackets doesn't offer, more than likely someone has built an extension for
-            it. To browse or search the list of available extensions, choose <strong>File > Extension
-            Manager…</strong> and click on the "Available" tab. When you find an extension you want, just click
-            the "Install" button next to it.
-        </p>
-        
-        <!--
-            LET US KNOW WHAT YOU THINK
-        -->
-        <h2>Get involved</h2>
-        <p>
-            Brackets is an open-source project. Web developers from around the world are contributing to build
-            a better code editor. Many more are building extensions that expand the capabilities of Brackets.
-            Let us know what you think, share your ideas or contribute directly to the project.
-        </p>
-        <ul>
-            <li><a href="http://brackets.io">Brackets.io</a></li>
-            <li><a href="http://blog.brackets.io">Brackets Team Blog</a></li>
-            <li><a href="https://github.com/adobe/brackets">Brackets on GitHub</a></li>
-            <li><a href="https://brackets-registry.aboutweb.com">Brackets Extension Registry</a></li>
-            <li><a href="https://github.com/adobe/brackets/wiki">Brackets Wiki</a></li>
-            <li><a href="https://groups.google.com/forum/#!forum/brackets-dev">Brackets Developer Mailing List</a></li>
-            <li><a href="https://twitter.com/brackets">@brackets on Twitter</a></li>
-            <li>Chat with Brackets developers on IRC in <a href="http://webchat.freenode.net/?channels=brackets&uio=d4">#brackets on Freenode</a></li>
-        </ul>
-        
+    
+        <!-- Bootstrap javascript -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     </body>
 </html>
-<!--
-
-    [[[[[[[[[[[[[[[      ]]]]]]]]]]]]]]]
-    [::::::::::::::      ::::::::::::::]
-    [::::::::::::::      ::::::::::::::]
-    [::::::[[[[[[[:      :]]]]]]]::::::]
-    [:::::[                      ]:::::]
-    [:::::[                      ]:::::]
-    [:::::[                      ]:::::]
-    [:::::[                      ]:::::]
-    [:::::[     CODE THE WEB     ]:::::]
-    [:::::[  http://brackets.io  ]:::::]
-    [:::::[                      ]:::::]
-    [:::::[                      ]:::::]
-    [:::::[                      ]:::::]
-    [:::::[                      ]:::::]
-    [::::::[[[[[[[:      :]]]]]]]::::::]
-    [::::::::::::::      ::::::::::::::]
-    [::::::::::::::      ::::::::::::::]
-    [[[[[[[[[[[[[[[      ]]]]]]]]]]]]]]]
-
--->
-
