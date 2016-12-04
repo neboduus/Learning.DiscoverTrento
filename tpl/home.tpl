@@ -9,17 +9,19 @@
         <meta name="description" content="Home page of Discover Trento Web-Application">
         <meta name="author" content="MarianDiaconu">
         <!-- Bootstrap Default Favicon -- Have to change it-->
-        <link rel="icon" href="../../favicon.ico">
+        <link rel="icon" href="img/favicon.ico">
         <!-- Bootstrap Latest compiled and minified CSS -->
         <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom styles from bootstrap -->
         <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+        <!-- Personal styles -->
+        <link rel="stylesheet" href="../css/home.css">
     </head>
     
     <body>
         
         <!-- Barra -->
-        <nav class="navbar navbar-inverse navbar-ficex-top" style="margin-bottom: 0px;">
+        <nav class="navbar navbar-inverse navbar-ficex-top">
             <div class="container">
                 
                 <div class="navbar-header">
@@ -69,7 +71,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="resize" >
-                        <img style="max-width:100%; max-height:100%;" src="../img/Trento_dall_alto.jpg">                   
+                        <img id="resized" src="../img/Trento_dall_alto.jpg">                   
                     </div>
                 </div>
             </div>
@@ -104,8 +106,11 @@
         <br>
         <br>
         <br>
-        <footer>
-            <p style="text-align: right;">© 2016 Discover Trento, A project made by <a href="/log/">Marian Alexandru Diaconu.</a></p>
+        
+        <footer class="footer footer_color">
+          <div class="container">
+            <p class="alignment_right">© 2016 Discover Trento, A project made by <a href="http://localhost:5000/login">Marian Alexandru Diaconu.</a></p>
+          </div>
         </footer>
         
     

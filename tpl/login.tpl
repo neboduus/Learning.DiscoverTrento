@@ -19,8 +19,8 @@
             password:<br>
             <input id="password" type="text" name="password"><br>
             <br>
-            <button id="logBtn" type="submit">Login</button>
-            <p id="responseText"></p>
+            <button id="button" type="tryLogin()">Login</button>
+            <p id="responseText">(:message ~ Insert your credentials and try to Log In if you are an admin:)</p>
         </form>
 
         
