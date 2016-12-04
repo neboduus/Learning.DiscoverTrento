@@ -21,15 +21,16 @@ create table event(
 	hour_range varchar(20) not null,
 	description text not null,
 	cost smallint not null,
-	place_id serial references place(id),
+	place_name varchar(50),
 	type smallint);
 
 create table news(
 	id serial not null primary key,
+    title varchar(50) not null,
 	description text not null,
 	data varchar(20) not null,
 	hour varchar(20),
-	place_id serial references place(id));
+	place_name varchar(50));
     
 create table admin(
     username varchar(20) primary key,

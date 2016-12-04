@@ -6,7 +6,7 @@ function tryLogin(){
     //get form object
     var form = document.getElementById("logForm");
     //collect form data iterating 
-    var data{};
+    var data;
     for(var i=0; ii=form.length, i<ii; i++){
         var input = form[i];
         if(inpu.name){

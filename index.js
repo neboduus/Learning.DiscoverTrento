@@ -27,7 +27,6 @@ app.set('port', (process.env.PORT || 5000));
 app.use("/img", express.static(__dirname + '/img'));
 app.use("/css", express.static(__dirname + '/css'));
 app.use("/scripts", express.static(__dirname + '/scripts'));
-app.use(express.static('tpl'));
 
 //required to parse request bodies - POST and JSON
 var bodyParser = require('body-parser');
@@ -59,19 +58,20 @@ app.get('/', function(request, response)
  */
 app.get("/login", function(req, res){
     var sess = req.session;
-    //checking if session exists
-    if (session.username == null){
+    //checking for session
+    console.log("session = "+sess);
+    if (typeof sess.username != 'undefined' && sess.username){
+        //redirect to manage info page
         //if no session redirect to login
-        bind.toFile('tpl/login.tpl',{},
+        bind.toFile('tpl/insert.tpl',{},
                     function(data){
                         //write response
                         res.writeHead(200, {'Content-Type': 'text/html'});
                         res.end(data);
                     });
     }else{
-        //redirect to manage info page
         //if no session redirect to login
-        bind.toFile('tpl/insert.tpl',{},
+        bind.toFile('tpl/login.tpl',{},
                     function(data){
                         //write response
                         res.writeHead(200, {'Content-Type': 'text/html'});
@@ -143,7 +143,8 @@ app.post("/login", function(req, res){
                 if (response=="1"){
                     //admin exists 
                     //set a session
-                    request.session.username = username;
+                    req.session.username = username;
+                    console.log("session inserted")
                     //redirect to private page
                     bind.toFile('tpl/insert.tpl',{},
                         function(data){
@@ -156,8 +157,8 @@ app.post("/login", function(req, res){
                     //redirect to login page
                     bind.toFile('tpl/login.tpl',
                                 {
-                        message : "Username or Password does not exist!!!"
-                        },
+                        FLAG :  true
+                    },
                         function(data){
                             //write response
                             res.writeHead(200, {'Content-Type': 'text/html'});
@@ -179,48 +180,44 @@ app.post("/login", function(req, res){
                 res.writeHead(200, {'Content-Type': 'text/html'});
                 res.end(data);
         });
-    }
-    
-    
+    }    
 })
 
-/**
- * connecting to check DB
+/*
+ * intercepts POST request to /placeUpload that contains infos to insert a new place in DB
+ * 
  */
-app.get("/select/", function(request, response){
-    var text = 'response:';
-	response.writeHead(200, {'Content-Type': 'text/html'});
-
-	//connect to database
-	pg.connect(
-		//enviromental variable, set by heroku when first databse is created or local one
-		connectionString, 
-		function(err, client, done) {
-		//query
-		client.query('SELECT * FROM place', function(err, result) {
-			//release the client back to the pool
-			done();
-			
-			//manages err
-			if (err){ 
-				console.error(err); 
-				response.end("Error select" + err); 
-		  	}
-		  	else {
-                var array_results = util.inspect(result.rows);
-                
-				text = "<p>Dump db: <br> " + array_results + " </p>";
-				text = text + "<br> <br>";
-		  	}
-			
-			//response here, otherwise the page will be sent before the execution of the query
-			console.log("text final: "+text);
-			response.end(text);
-		});
-  	});
+app.post("/placeUpload", function(req, res){
+    //variable message to send back to the requester
+    var response = "-1";
+    //variables nedded for update
+    var name;
+    var address;
+    var history;
+    var info;
+    var type;
+    //check if they sent something that makes sense
+    if( typeof req.body!='undefined' && req.body){
+        //check all the fields needed
+        
+    }
+    
 });
 
 
+/*
+ * for destroying session
+ 
+ app.get('/logout',function(req,res){
+    req.session.destroy(function(err) {
+      if(err) {
+        console.log(err);
+      } else {
+        res.redirect('/');
+      }
+    });
+    
+ */
 
 //start server
 app.listen(app.get('port'), function() {

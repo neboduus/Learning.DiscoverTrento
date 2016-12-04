@@ -8,7 +8,7 @@
         <title>Discover Trento Places</title>
         <meta name="description" content="Home page of Discover Trento Web-Application">
         <meta name="author" content="MarianDiaconu">
-        <!-- Bootstrap Default Favicon -- Have to change it-->
+        <!-- Favicon -->
         <link rel="icon" href="img/favicon.ico">
         <!-- Bootstrap Latest compiled and minified CSS -->
         <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -31,16 +31,26 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Discover Trento <small>and surroundings </small></a>
+                    <a class="navbar-brand" href="http://localhost:5000/">Discover Trento <small>and surroundings </small></a>
                 </div>
                 
                 <div id="navbar" class="navbar-collapse collapse">
                     
                     <form class="navbar-form navbar-right">    
+                        
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Search for...">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                          </span>
+                        </div>
+                        
+                        <!--
                         <div class="form-group">
                             <input type="text" placeholder="Place name" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-success">Search</button>
+                        -->
                         
                         <button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
                             Places
@@ -54,12 +64,8 @@
                             News
                         </button>
                         
-                        
-                        
                   </form>
-                    
                 </div>
-             
             </div>
         </nav>        
         <!-- Main message for users -->
@@ -109,10 +115,12 @@
         
         <footer class="footer footer_color">
           <div class="container">
-            <p class="alignment_right">© 2016 Discover Trento, A project made by <a href="http://localhost:5000/login">Marian Alexandru Diaconu.</a></p>
+            <p class="alignment_right">© 2016 Discover Trento, A project made by 
+                <span>Marian Alexandru Diaconu.</span>
+                <a href="http://localhost:5000/login" type="button" class="btn btn-default navbar-btn">Sign in</a>
+            </p>
           </div>
         </footer>
-        
     
         <!-- Bootstrap javascript -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
