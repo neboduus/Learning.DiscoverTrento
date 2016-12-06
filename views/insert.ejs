@@ -53,104 +53,129 @@
         </nav>  
         <div class="container">
             <br>
-            <div class="alert alert-info" role="alert">Here you can insert new <b>content</b> for the site!</div>
+            <div class="alert alert-info" role="alert">
+                Here you can insert new <b>content</b> for the site!<br>
+                *all the fields are required
+            </div>
+            
+            <h2>Private Space</h2>
+              <ul class="nav nav-tabs">
+                <li <% if (where=='1'){ %> class="active" <% } %> ><a data-toggle="tab" href="#home">Insert Places</a></li>
+                <li <% if (where=='2'){ %> class="active" <% } %>><a data-toggle="tab" href="#menu1">Insert News</a></li>
+                <li <% if (where=='3'){ %> class="active" <% } %>><a data-toggle="tab" href="#menu2">Insert Events</a></li>
+              </ul>
 
-            <div class="col-md-3">
-                
-                <div class="thumbnail">
-                    <h3><span class="label label-default">Insert a Place</span></h3>
+              <div class="tab-content">
+                <div id="home" class="tab-pane fade <% if (where=='1'){ %> in active <% } %>">
                     <br>
-                    <form id="place_form" method="POST" enctype="multipart/form-data" action="http://localhost:5000/placeUpload">
-                        Name:<br>
-                        <input type="text" name="place_name"><br>
-                        Address:<br>
-                        <div id="locationField">
-                          <input id="place_address" name="place_address" type="text"/>
-                        </div>
-                        History:<br>
-                        <textarea rows="6" cols="25" type="text" name="place_history"></textarea><br>
-                        Other Info:<br>
-                        <textarea rows="6" cols="25" type="text" name="place_info"></textarea><br>
-                        Type: <br>
-                        <input type="number" name="place_type" min="0" max="1">
-                        <br>0 for University Place and<br>
-                        1 for City Place<br>
-                        2 for Other<br>
+                    <div class="thumbnail">
+                        <h3><span class="label label-default">Insert a Place</span></h3>
                         <br>
-                        Choose a photo:
-                        <input type="file" name="place_photo"><br>
-                        <button id="place_btn" class="btn btn-success" type="button" >Insert Place</button>
-                    </form>
+                        <form id="placeForm" method="POST" enctype="multipart/form-data" action="http://localhost:5000/placeUpload">
+                            <% if (placeMessage == "1"){ %>
+                                <!-- Nothing -->
+                            <% }else if(placeMessage != "OK"){ %>
+                                <div class="alert alert-danger" role="alert"><%=placeMessage%></div>
+                            <% }else{ %> 
+                                <div class="alert alert-success" role="alert">Place successfully inserted!</div>
+                            <% }; %>
+                            Name:<br>
+                            <input type="text" name="placeName" value="<%=placeName %>"><br>
+                            Address:<br>
+                            <div id="locationField">
+                              <input id="place_address" name="placeAddress" type="text" value="<%=placeAddress %>"/>
+                            </div>
+                            History:<br>
+                            <textarea rows="6" cols="25" type="text" name="placeHistory" value="<%=placeHistory %>"></textarea><br>
+                            Other Info:<br>
+                            <textarea rows="6" cols="25" type="text" name="placeInfo" value="<%=placeInfo %>"></textarea><br>
+                            Type: <br>
+                            <input type="number" name="placeType" min="0" max="2" value="<%=placeType %>">
+                            <br>0 for University Place and<br>
+                            1 for City Place<br>
+                            2 for Other<br>
+                            <br>
+                            Choose a photo:
+                            <input type="file" name="placePhoto"><br>
+                            <button id="place_btn" class="btn btn-success" type="submit" >Insert Place</button>
+
+                        </form>
                 
+                    </div>
                 </div>
-                
-            </div>
-            
-            <div class="col-md-1"></div>
-            
-            <div class="col-md-3">
-                <div class="thumbnail">
-                    <h3><span class="label label-default">Insert News</span></h3>
+                  
+                <div id="menu1" class="tab-pane fade <% if (where=='2'){ %> in active <% } %>">
                     <br>
-                    <form id="news_form" method="POST" action="http://localhost:5000/newsUpload">
-                        Title:<br>
-                        <input type="text" name="title" id="title" value="<%=title%>"><br>
-                        Description:<br>
-                        <textarea rows="6" cols="25" type="text" name="desc" id="desc" value="<%=desc%>"></textarea><br>
-                        Data: <br>
-                        <input type="text" name="data" id="data" value="<%=data%>"><br>
-                        Hour: <br>
-                        <input type="text" name="hour" id="hour" value="<%=hour%>"><br>
-                        Place: <br>
-                        <input type="text" name="place" id="place" value="<%=place%>"><br>
-                        <br><br>
-                        <button id="news_btn" class="btn btn-success" type="submit" >Insert News</button>
-                    </form>
-                    
-                    <% if (newsMessage == "1"){ %>
-                        <!-- Nothing -->
-                    <% }else if(newsMessage != "OK"){ %>
-                        <div class="alert alert-danger" role="alert"><%=newsMessage%></div>
-                    <% }else{ %> 
-                        <div class="alert alert-success" role="alert">News successfully inserted!</div>
-                    <% }; %>
+                      <div class="thumbnail">
+                        <h3><span class="label label-default">Insert News</span></h3>
+                        <br>
+                        <form id="news_form" method="POST" action="http://localhost:5000/newsUpload">
+                            <% if (newsMessage == "1"){ %>
+                                <!-- Nothing -->
+                            <% }else if(newsMessage != "OK"){ %>
+                                <div class="alert alert-danger" role="alert"><%=newsMessage%></div>
+                            <% }else{ %> 
+                                <div class="alert alert-success" role="alert">News successfully inserted!</div>
+                            <% }; %>
+
+                            Title:<br>
+                            <input type="text" name="title" id="title" value="<%=title%>"><br>
+                            Description:<br>
+                            <textarea rows="6" cols="25" type="text" name="desc" id="desc" value="<%=desc%>"></textarea><br>
+                            Data: <br>
+                            <input type="text" name="data" id="data" value="<%=data%>"><br>
+                            Hour: <br>
+                            <input type="text" name="hour" id="hour" value="<%=hour%>"><br>
+                            Place: <br>
+                            <input type="text" name="place" id="place" value="<%=place%>"><br>
+                            <br><br>
+                            <button id="news_btn" class="btn btn-success" type="submit" >Insert News</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="col-md-1"></div>
-            
-            <div class="col-md-3">
-                <div class="thumbnail">
-                    <h3><span class="label label-default">Insert an Event</span></h3>
+                  
+                <div id="menu2" class="tab-pane fade <% if (where=='3'){ %> in active <% } %>">
                     <br>
-                    <form method="POST" enctype="multipart/form-data" action="/eventUpload">
-                        Name:<br>
-                        <input type="text" name="event_name"><br>
-                        Address:<br>
-                        <input type="text" name="event_address"><br>
-                        Data: <br>
-                        <input type="text" name="event_data"><br>
-                        Hours Range: <br>
-                        <input type="text" name="event_hours"><br>
-                        Description:<br>
-                        <textarea rows="6" cols="25" type="text" name="event_desc"></textarea><br>
-                        Cost: <br>
-                        <input type="text" name="event_cost"><br>
-                        Place: <br>
-                        <input type="text" name="event_place"><br>
-                        Type: <br>
-                        <input type="number" name="event_type" min="0" max="4">
-                        <br>0 for University Event<br>
-                        1 for Politics <br>
-                        2 for Culture <br>
-                        3 for Local News <br>
-                        4 for Music <br>
-                        <button class="btn btn-success" type="button">Insert Event</button>
-                    </form>
+                    <div class="thumbnail">
+                        <h3><span class="label label-default">Insert an Event</span></h3>
+                        <br>
+                        <form method="POST" id="eventForm" action="http://localhost:5000/eventUpload">
+                            <% if (eventMessage == "1"){ %>
+                            <!-- Nothing -->
+                            <% }else if(eventMessage != "OK"){ %>
+                                <div class="alert alert-danger" role="alert"><%=eventMessage%></div>
+                            <% }else{ %> 
+                                <div class="alert alert-success" role="alert">News successfully inserted!</div>
+                            <% }; %>
+
+                            Name:<br>
+                            <input type="text" name="eventName" value="<%=eventName%>"><br>
+                            Address:<br>
+                            <input type="text" name="eventAddress" value="<%=eventAddress%>"><br>
+                            Data: <br>
+                            <input type="text" name="eventData" value="<%=eventData%>"><br>
+                            Hours Range: <br>
+                            <input type="text" name="eventHours" value="<%=eventHours%>"><br>
+                            Description:<br>
+                            <textarea rows="6" cols="25" type="text" name="eventDesc" value="<%=eventDescription%>"></textarea><br>
+                            Cost: <br>
+                            <input type="text" name="eventCost" value="<%=eventCost%>"><br>
+                            Place: <br>
+                            <input type="text" name="eventPlace" value="<%=eventPlace%>"><br>
+                            Type: <br>
+                            <input type="number" name="eventType" min="0" max="4" value="<%=eventType%>">
+                            <br>0 for University Event<br>
+                            1 for Politics <br>
+                            2 for Culture <br>
+                            3 for Local News <br>
+                            4 for Music <br>
+                            <button class="btn btn-success" type="submit">Insert Event</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+              </div>
+
             
-            <div class="col-md-1"></div>
             
         </div>
         

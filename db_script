@@ -1,17 +1,11 @@
-create table photo(
-    id serial not null primary key,
-    url varchar(200) not null);
-
 create table place(
 	id serial not null primary key,
 	name varchar(50) not null,
 	address varchar(200) not null,
-	lat double precision not null,
-	long double precision not null,
 	history text not null,
 	info text,
 	type smallint,
-    photo_id serial references photo(id));
+    photo varchar(200));
 
 create table event(
 	id serial not null primary key,
