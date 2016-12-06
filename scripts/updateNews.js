@@ -1,20 +1,18 @@
-/**
- * @brief this function sends a JSON request with data necessary to login and process a JSON response
- * @return nothing
- */
-function tryLogin(){
+function tryNewsUpdate(){
     //get form object
-    var form = document.getElementById("logForm");
+    var form = document.getElementById("news_form");
     //collect form data iterating 
-    var data;
+    var data = new Array();
     for(var i=0; ii=form.length, i<ii; i++){
         var input = form[i];
         if(input.name){
+            //data1.push(input.name);
+            //data2.push(input.value);
             data[input.name] = input.value;
-            alert(data[input.name]);
+            //alert(data.toString);
         }
     }
-    console.log("sent "+data);
+    console.log("sent "+ data);
     //construct an HttpRequest
     var xhr = new XMLHttpRequest();
     xhr.open(form.method, form.action, true);

@@ -37,33 +37,34 @@
         </nav>   
         
         <div class="container">
+            <br>
             <div class="alert alert-info" role="alert"><b>Admin login only!</b> <small>normal users are not allowed</small></div>
             
                     <form id="logForm" method="POST" action="http://localhost:5000/login">
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon1"></span>
-                            <input class="form-control" placeholder="Username" aria-describedby="basic-addon1" id="username" type="text" name="username">
+                            <input class="form-control" placeholder="Username" aria-describedby="basic-addon1" id="username" type="text" name="user">
                         </div>
                         <br>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon1"></span>
-                            <input class="form-control" placeholder="Password" aria-describedby="basic-addon1" id="password" type="password" name="password">
+                            <input class="form-control" placeholder="Password" aria-describedby="basic-addon1" id="password" type="password" name="psw">
                         </div>
                         <br>
                         <br>
                         <div class="wrapper">
-                            <button class=" btn btn-lg btn-default" id="button" type="tryLogin()">Login</button>
+                            <button class=" btn btn-lg btn-default" type="submit" >Login</button>
                         </div>
                     </form>
                     <br>
                 <br>
-                (:if[FLAG] ~[:then ~ 
-                    <div class="alert alert-danger" role="alert">Username or Password are wrong!</div>:]
-                            [:else ~ 
-                    <div class="alert alert-success" role="alert">Insert your credentials and try to Login!</div> :]
-                :)
+                <% if (flag == "-1"){ %>
+                    <div class="alert alert-danger" role="alert">Username or Password are wrong!</div>
+                <% }else{ %> 
+                    <div class="alert alert-success" role="alert">Insert your credentials and try to Login!</div>
+                <% }; %>
         </div>
         
         

@@ -26,8 +26,7 @@
                 
 
         <!-- Personal Scripts -->
-        <script src="../scripts/tryLogin.js"></script>   
-        <script src="../scripts/update.js"></script>
+        <script src="../scripts/updateNews.js"></script>
         
         <!-- Personal styles -->
         <link rel="stylesheet" href="../css/home.css">
@@ -53,6 +52,7 @@
             </div>
         </nav>  
         <div class="container">
+            <br>
             <div class="alert alert-info" role="alert">Here you can insert new <b>content</b> for the site!</div>
 
             <div class="col-md-3">
@@ -65,7 +65,7 @@
                         <input type="text" name="place_name"><br>
                         Address:<br>
                         <div id="locationField">
-                          <input id="place_address" name="place_address" onFocus="geolocate()" type="text"/>
+                          <input id="place_address" name="place_address" type="text"/>
                         </div>
                         History:<br>
                         <textarea rows="6" cols="25" type="text" name="place_history"></textarea><br>
@@ -92,20 +92,28 @@
                 <div class="thumbnail">
                     <h3><span class="label label-default">Insert News</span></h3>
                     <br>
-                    <form method="POST" enctype="multipart/form-data" action="/newsUpload">
+                    <form id="news_form" method="POST" action="http://localhost:5000/newsUpload">
                         Title:<br>
-                        <input type="text" name="news_title"><br>
+                        <input type="text" name="title" id="title" value="<%=title%>"><br>
                         Description:<br>
-                        <textarea rows="6" cols="25" type="text" name="news_desc"></textarea><br>
+                        <textarea rows="6" cols="25" type="text" name="desc" id="desc" value="<%=desc%>"></textarea><br>
                         Data: <br>
-                        <input type="text" name="news_data"><br>
+                        <input type="text" name="data" id="data" value="<%=data%>"><br>
                         Hour: <br>
-                        <input type="text" name="news_hour"><br>
+                        <input type="text" name="hour" id="hour" value="<%=hour%>"><br>
                         Place: <br>
-                        <input type="text" name="news_place"><br>
+                        <input type="text" name="place" id="place" value="<%=place%>"><br>
                         <br><br>
-                        <button class="btn btn-success" type="button" >Insert News</button>
+                        <button id="news_btn" class="btn btn-success" type="submit" >Insert News</button>
                     </form>
+                    
+                    <% if (newsMessage == "1"){ %>
+                        <!-- Nothing -->
+                    <% }else if(newsMessage != "OK"){ %>
+                        <div class="alert alert-danger" role="alert"><%=newsMessage%></div>
+                    <% }else{ %> 
+                        <div class="alert alert-success" role="alert">News successfully inserted!</div>
+                    <% }; %>
                 </div>
             </div>
             
