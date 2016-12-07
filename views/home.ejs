@@ -19,55 +19,8 @@
     </head>
     
     <body>
+        <% include ../views/header.ejs %>
         
-        <!-- Barra -->
-        <nav class="navbar navbar-inverse navbar-ficex-top">
-            <div class="container">
-                
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="http://localhost:5000/">Discover Trento <small>and surroundings </small></a>
-                </div>
-                
-                <div id="navbar" class="navbar-collapse collapse">
-                    
-                    <form class="navbar-form navbar-right">    
-                        
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Search for...">
-                          <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                          </span>
-                        </div>
-                        
-                        <!--
-                        <div class="form-group">
-                            <input type="text" placeholder="Place name" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-success">Search</button>
-                        -->
-                        
-                        <button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
-                            Places
-                        </button>
-                        
-                        <button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
-                            Events
-                        </button>
-                        
-                        <button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
-                            News
-                        </button>
-                        
-                  </form>
-                </div>
-            </div>
-        </nav>        
         <!-- Main message for users -->
         <div class="jumbotron">
             <div class="container">
@@ -88,7 +41,7 @@
             <div class="row">
                 
                 <div class="col-md-6">
-                    <h2>News</h2>
+                    <h2>Last News</h2>
                     <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
                     <p><a class="btn btn-default" href="#" role="button">More News!! »</a></p>
                 </div>
@@ -113,14 +66,7 @@
         <br>
         <br>
         
-        <footer class="footer footer_color">
-          <div class="container">
-            <p class="alignment_right">© 2016 Discover Trento, A project made by 
-                <span>Marian Alexandru Diaconu.</span>
-                <a href="http://localhost:5000/login" type="button" class="btn btn-default navbar-btn">Sign in</a>
-            </p>
-          </div>
-        </footer>
+        <% include ../views/footer.ejs %>
     
         <!-- Bootstrap javascript -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

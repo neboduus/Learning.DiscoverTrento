@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- metadata -->  
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title><%=place.name%></title>
+        <meta name="description" content="Home page of Discover Trento Web-Application">
+        <meta name="author" content="MarianDiaconu">
+        <!-- Favicon -->
+        <link rel="icon" href="img/favicon.ico">
+        <!-- Bootstrap Latest compiled and minified CSS -->
+        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/home.css">
+        
+        <title> Login </title>
+    </head>
+
+    <body>
+        <% include ../views/header.ejs %>
+        <br>
+        <div class="container">
+            <div class="page-header">
+                <h1><%=place.name%> <small><%=place.address%></small></h1>
+            </div>
+            
+            <img src="../img/photo/<%=place.photo%>" alt="PlacePhoto">
+            
+            <h3><span class="label label-default">History</span></h3>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <%=place.history%>
+                </div>
+            </div>
+            
+            <h3><span class="label label-default">Info</span></h3>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <%=place.info%>
+                </div>
+            </div>
+        </div>
+
+        
+        <br><br><br>
+        <% include ../views/footer.ejs %>
+        
+        <!-- Scripts -->
+        <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="     crossorigin="anonymous"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="../scripts/tryLogin.js"></script> 
+    </body>
+
+</html>

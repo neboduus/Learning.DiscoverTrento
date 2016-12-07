@@ -34,23 +34,8 @@
     </head>
 
     <body>  
-        <nav class="navbar navbar-inverse navbar-ficex-top">
-            <div class="container">
-                
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="http://localhost:5000/">Discover Trento <small>and surroundings </small></a>
-                </div>
-                
-                <!-- INSERIRE BOTTONI QUANDO PRONTI -->
-                
-            </div>
-        </nav>  
+        <% include ../views/header.ejs %>
+        
         <div class="container">
             <br>
             <div class="alert alert-info" role="alert">
@@ -86,14 +71,15 @@
                               <input id="place_address" name="placeAddress" type="text" value="<%=placeAddress %>"/>
                             </div>
                             History:<br>
-                            <textarea rows="6" cols="25" type="text" name="placeHistory" value="<%=placeHistory %>"></textarea><br>
+                            <textarea rows="6" cols="25" type="text" name="placeHistory" ><%=placeHistory %></textarea><br>
                             Other Info:<br>
-                            <textarea rows="6" cols="25" type="text" name="placeInfo" value="<%=placeInfo %>"></textarea><br>
+                            <textarea rows="6" cols="25" type="text" name="placeInfo"><%=placeInfo %></textarea><br>
                             Type: <br>
                             <input type="number" name="placeType" min="0" max="2" value="<%=placeType %>">
-                            <br>0 for University Place and<br>
-                            1 for City Place<br>
-                            2 for Other<br>
+                            <br>0 for University Department<br>
+                            1 for Libraries <br>
+                            2 for City Squares<br>
+                            3 for Monuments<br>
                             <br>
                             Choose a photo:
                             <input type="file" name="placePhoto"><br>
@@ -121,7 +107,7 @@
                             Title:<br>
                             <input type="text" name="title" id="title" value="<%=title%>"><br>
                             Description:<br>
-                            <textarea rows="6" cols="25" type="text" name="desc" id="desc" value="<%=desc%>"></textarea><br>
+                            <textarea rows="6" cols="25" type="text" name="desc" id="desc" ><%=desc%></textarea><br>
                             Data: <br>
                             <input type="text" name="data" id="data" value="<%=data%>"><br>
                             Hour: <br>
@@ -157,7 +143,7 @@
                             Hours Range: <br>
                             <input type="text" name="eventHours" value="<%=eventHours%>"><br>
                             Description:<br>
-                            <textarea rows="6" cols="25" type="text" name="eventDesc" value="<%=eventDescription%>"></textarea><br>
+                            <textarea rows="6" cols="25" type="text" name="eventDesc" ><%=eventDescription%></textarea><br>
                             Cost: <br>
                             <input type="text" name="eventCost" value="<%=eventCost%>"><br>
                             Place: <br>
@@ -179,12 +165,8 @@
             
         </div>
         
-        <br><br>
-        <footer class="footer footer_color">
-          <div class="container">
-            <p class="alignment_right">© 2016 Discover Trento, A project made by <a href="http://localhost:5000/login">Marian Alexandru Diaconu.</a></p>
-          </div>
-        </footer>
+        <br><br><br>
+        <% include ../views/footer.ejs %>
 
     </body>
 

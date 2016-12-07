@@ -33,3 +33,19 @@
     position: absolute;
     top: 50%;
 }
+
+.thumbnail{
+   width:310px;
+   height:350px;
+}
+
+.img-thumbnail{
+    width:300px;
+    height:200px;
+}
+
+.btn-bottom{
+    position: absolute;
+    left:    30px;
+    bottom:   30px;
+}

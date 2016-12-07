@@ -51,9 +51,119 @@ app.use(bodyParser.json());
  * @brief binds to home page
  * @return the first page of the app
  */
-app.get('/', function(req, res) 
-{  
+app.get('/', function(req, res) {  
     res.render('home.ejs');
+});
+
+app.get('/categories', function(req, res){
+    res.render('categories.ejs');
+});
+
+app.get('/university', function(req, res){
+    res.render('university.ejs');
+});
+
+/*
+ *GET libraries of unitn 
+ */
+app.get('/libraries', function(req, res){
+
+    pg.connect(
+    connectionString,
+    function(err, client, done){
+        client.query('SELECT * FROM place WHERE type=1', function(err, result){
+            //release client
+            done();
+            
+            //manage errors
+            if (err){
+                console.error(err); 
+            }else{
+                //get the objects
+                if(typeof result.rows[0] != 'undefined' && result.rows[0]){
+                    console.log("got libraries");
+                    res.render('libraries.ejs',{
+                        libraries: result.rows
+                    });
+                }else{
+                    res.end("Error");
+                }
+            }
+        });
+    });
+
+});
+
+/*
+ *GET departments of unitn 
+ */
+app.get('/departments', function(req, res){
+
+    pg.connect(
+    connectionString,
+    function(err, client, done){
+        client.query('SELECT * FROM place WHERE type=0;', function(err, result){
+            //release client
+            done();
+            
+            //manage errors
+            if (err){
+                console.error(err); 
+            }else{
+                //get the objects
+                if(typeof result.rows[0] != 'undefined' && result.rows[0]){
+                    console.log("got departments");
+                    res.render('libraries.ejs',{
+                        libraries: result.rows
+                    });
+                }else{
+                    res.end("Error");
+                }
+            }
+        });
+    });
+
+});
+
+/*
+ *GET information for a specific place
+ */
+app.post('/place',function(req, res){
+    var placeId;
+    if (typeof req.body != 'undefined' && req.body){
+        if(typeof req.body.placeId != 'undefined' && req.body.placeId){
+            placeId = parseInt(req.body.placeId);
+            //query DB for info
+            pg.connect(
+            connectionString,
+            function(err, client, done){
+                client.query('SELECT * FROM place WHERE id=$1', [placeId], function(err, result){
+                    //release client
+                    done();
+
+                    //manage errors
+                    if (err){
+                        console.error(err); 
+                    }else{
+                        //get the objects
+                        if(typeof result.rows[0] != 'undefined' && result.rows[0]){
+                            console.log("got place info");
+                            res.render('place.ejs',{
+                                place: result.rows[0]
+                            });
+                        }else{
+                            res.end("Error");
+                        }
+                    }
+                });
+            });
+            
+        }else{
+            res.end("NO ID RECIEVED");
+        }
+    }else{
+        res.end("NO DATA SENT");
+    }
 });
 
 /**

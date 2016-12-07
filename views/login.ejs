@@ -18,23 +18,7 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-inverse navbar-ficex-top">
-            <div class="container">
-                
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                     <a class="navbar-brand" href="http://localhost:5000/">Discover Trento <small>and surroundings </small></a>
-                </div>
-                
-                <!-- INSERIRE BOTTONI QUANDO PRONTI -->
-                
-            </div>
-        </nav>   
+        <% include ../views/header.ejs %>
         
         <div class="container">
             <br>
@@ -67,17 +51,8 @@
                 <% }; %>
         </div>
         
-        
-
-        <br><br><br><br>
-        <footer class="footer footer_color">
-          <div class="container">
-            <p class="alignment_right">© 2016 Discover Trento, A project made by 
-                <span>Marian Alexandru Diaconu.</span>
-                <a href="http://localhost:5000/login" type="button" class="btn btn-default navbar-btn">Sign in</a>
-            </p>
-          </div>
-        </footer>
+        <br><br><br>
+        <% include ../views/footer.ejs %>
         
         <!-- Scripts -->
         <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
