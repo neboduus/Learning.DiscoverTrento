@@ -19,11 +19,11 @@
     max-height:100%;
 }
 
+
 .footer_color{
     background-color: darkgray;
 }
-: 100%;
-}
+
 
 .wrapper {
     text-align: center;
@@ -34,10 +34,6 @@
     top: 50%;
 }
 
-.thumbnail{
-   width:310px;
-   height:350px;
-}
 
 .img-thumbnail{
     width:300px;
@@ -49,3 +45,7 @@
     left:    30px;
     bottom:   30px;
 }
+
+
+
+
