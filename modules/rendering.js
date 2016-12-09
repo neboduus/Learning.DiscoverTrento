@@ -1,7 +1,3 @@
-/*
- *  That module helps server to render a view depending on various parameter
- */
-
 //db connection library
 var pg = require('pg');
 //string that allows connection to DB
@@ -139,7 +135,7 @@ var renderPlaceByType = function(type, res){
             });
         }
     );
-}
+};
 
 /**
 * gets all the rows of a table and binds them on a page that shows them
@@ -204,7 +200,7 @@ var renderByTable = function(table, res){
             }
         });
     });
-}
+};
 
 /*
  *  get all the place info and redirect on a personalized place for that place
@@ -271,7 +267,7 @@ var renderPlaceById = function(req, res){
             message: "We apologize but the server recieved no Data! Maybe there is an intern problem. try again Later"
         });
     }
-}
+};
 
 /*
  * make 2 simultaneus queries to the DB (gets the info to show on the homepage) and render the homepage
@@ -296,9 +292,8 @@ var renderHome  = function(res){
         res.render('error.ejs',{
             message: "We apologize, maybe we have some problems with the servers, come back later"
         });
-    });
-    
-}
+    });  
+};
 
 //export functions
 exports.renderHome = renderHome;
