@@ -19,7 +19,7 @@
                 </b> 
                 for the site!<br>
                 *all the fields are required<br>
-                Here you can also: <a href="http://localhost:5000/logout" type="button" class="btn btn-default navbar-btn">Sign out</a>
+                Here you can also: <a href="https://blooming-reef-42377.herokuapp.com/logout" type="button" class="btn btn-default navbar-btn">Sign out</a>
             </div>
             
             <h2>Private Space</h2>
@@ -39,7 +39,7 @@
                             </span>
                         </h3>
                         <br>
-                        <form id="placeForm" method="POST" enctype="multipart/form-data" action="http://localhost:5000/placeUpload">
+                        <form id="placeForm" method="POST" enctype="multipart/form-data" action="https://blooming-reef-42377.herokuapp.com/placeUpload">
                             <!-- scriptlet to check if a message to user is needed -->
                             <% if (placeMessage == "1"){ %>
                                 <!-- Nothing -->
@@ -97,7 +97,7 @@
                       <div class="thumbnail">
                         <h3><span class="label label-default">Insert News</span></h3>
                         <br>
-                        <form id="news_form" method="POST" action="http://localhost:5000/newsUpload">
+                        <form id="news_form" method="POST" action="https://blooming-reef-42377.herokuapp.com/newsUpload">
                             <!-- check if a message is needed -->
                             <% if (newsMessage == "1"){ %>
                                 <!-- Nothing -->
@@ -146,7 +146,7 @@
                     <div class="thumbnail">
                         <h3><span class="label label-default">Insert an Event</span></h3>
                         <br>
-                        <form method="POST" id="eventForm" action="http://localhost:5000/eventUpload">
+                        <form method="POST" id="eventForm" action="https://blooming-reef-42377.herokuapp.com/eventUpload">
                             <!-- check if a message is needed -->
                             <% if (eventMessage == "1"){ %>
                             <!-- Nothing -->
