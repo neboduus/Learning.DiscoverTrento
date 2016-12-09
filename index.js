@@ -1,4 +1,4 @@
-//GET
+//utility lib
 var util = require('util');
 //for binding in the template
 var bind = require('bind');
@@ -6,44 +6,52 @@ var bind = require('bind');
 var express = require('express');
 //connect DB
 var pg = require('pg');
-var connectionString = process.env.DATABASE_URL || 'postgres://mario:calculator@localhost/discoverdb';
 //general lib
 var app = express();
 //manage session
 var session = require('express-session')
+//my modules
+var rendering = require('./modules/rendering.js');
+//required to parse request bodies - POST and JSON
+var bodyParser = require('body-parser');
 //for managing uploads
 var multer  = require('multer');
+
+//setting a disk storage
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'img/photo')
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '.jpg') //Appending .jpg
-  }
-})
+    destination: function (req, file, cb) {
+        //set folder
+        cb(null, 'img/photo')
+    },
+    filename: function (req, file, cb) {
+        //set how to rename
+        cb(null, Date.now() + '.jpg') //Appending .jpg
+    }
+});
 var upload = multer({ storage: storage });
+//string that allows connection to DB
+var connectionString = process.env.DATABASE_URL || 'postgres://mario:calculator@localhost/discoverdb';
 
 //defining some static content
 app.use("/img", express.static(__dirname + '/img'));
 app.use("/css", express.static(__dirname + '/css'));
 app.use("/scripts", express.static(__dirname + '/scripts'));
-
-// set the view engine to ejs
-app.set('view engine', 'ejs');
-
+app.use("/modules", express.static(__dirname + '/modules'));
 //use sessions
 app.use(session({ 
 	//required, used to prevent tampering
 	secret: 'discoverTN', 
 	//set time of validity of cookies
-	cookie: { maxAge: 600000 }
+	cookie: { maxAge: 600000 },
+    resave: true,
+    saveUninitialized: true
 }));
 
+// set the view engine to ejs
+app.set('view engine', 'ejs');
 //seting server port 
 app.set('port', (process.env.PORT || 5000));
-
-//required to parse request bodies - POST and JSON
-var bodyParser = require('body-parser');
+//parsers for body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -52,118 +60,101 @@ app.use(bodyParser.json());
  * @return the first page of the app
  */
 app.get('/', function(req, res) {  
-    res.render('home.ejs');
-});
-
-app.get('/categories', function(req, res){
-    res.render('categories.ejs');
-});
-
-app.get('/university', function(req, res){
-    res.render('university.ejs');
-});
-
-/*
- *GET libraries of unitn 
- */
-app.get('/libraries', function(req, res){
-
-    pg.connect(
-    connectionString,
-    function(err, client, done){
-        client.query('SELECT * FROM place WHERE type=1', function(err, result){
-            //release client
-            done();
-            
-            //manage errors
-            if (err){
-                console.error(err); 
-            }else{
-                //get the objects
-                if(typeof result.rows[0] != 'undefined' && result.rows[0]){
-                    console.log("got libraries");
-                    res.render('libraries.ejs',{
-                        libraries: result.rows
-                    });
-                }else{
-                    res.end("Error");
-                }
-            }
-        });
+    /*
+    res.render('home.ejs',{
+        req: req
     });
+    */
+    rendering.renderHome(res);
+});
 
+/**
+ * @brief binds to a place categories
+ * @return a page with 2 categories of places -> City places and University Places
+ */
+app.get('/categories', function(req, res){
+    res.render('categories.ejs',{
+        req: req
+    });
+});
+
+/**
+ * @brief binds to university places
+ * @return a page with 2 categories of university places -> Libraries and Departments
+ */
+app.get('/university', function(req, res){
+    res.render('university.ejs',{
+        req: req
+    });
+});
+
+/**
+ * @brief binds to city places page
+ * @return a page with 2 categories of city places -> Monuments and squares
+ */
+app.get('/city', function(req, res){
+    res.render('city.ejs');
 });
 
 /*
- *GET departments of unitn 
+ * @brief intercepts all GET requests to see departments of unitn
+ *        connects to DB, collects all data for all the departments
+ * @return a page with a list of all departments of unitn
  */
 app.get('/departments', function(req, res){
+    rendering.renderPlaceByType(0, res);
+});
 
-    pg.connect(
-    connectionString,
-    function(err, client, done){
-        client.query('SELECT * FROM place WHERE type=0;', function(err, result){
-            //release client
-            done();
-            
-            //manage errors
-            if (err){
-                console.error(err); 
-            }else{
-                //get the objects
-                if(typeof result.rows[0] != 'undefined' && result.rows[0]){
-                    console.log("got departments");
-                    res.render('libraries.ejs',{
-                        libraries: result.rows
-                    });
-                }else{
-                    res.end("Error");
-                }
-            }
-        });
-    });
+/*
+ * @brief intercepts all GET requests to see libraries of unitn
+ *        connects to DB, collects all data for all the libraries
+ * @return a page with a list of all libraries of unitn
+ */
+app.get('/libraries', function(req, res){
+    rendering.renderPlaceByType(1, res);
+});
 
+/*
+ * @brief intercepts all GET requests to see squares of Trento city
+ *        connects to DB, collects all data for all the squares
+ * @return a page with a list of all squares of unitn
+ */
+app.get('/squares', function(req, res){
+    rendering.renderPlaceByType(2, res);
+});
+
+/*
+ * @brief intercepts all GET requests to see monuments of Trento city
+ *        connects to DB, collects all data for all the monuments
+ * @return a page with a list of all monuments of unitn
+ */
+app.get('/monuments', function(req, res){
+   rendering.renderPlaceByType(3, res);
+});
+
+/*
+ * @brief intercepts all GET requests to see events of Trento city
+ *        connects to DB, collects all data for all the events
+ * @return a page with a list of all events of unitn
+ */
+app.get('/events', function(req, res){
+    rendering.renderByTable('event', res);
+});
+
+/*
+ * @brief intercepts all GET requests to see events of Trento city
+ *        connects to DB, collects all data for all the events
+ * @return a page with a list of all events of unitn
+ */
+app.get('/news', function(req, res){
+    rendering.renderByTable('news', res);
 });
 
 /*
  *GET information for a specific place
  */
 app.post('/place',function(req, res){
-    var placeId;
-    if (typeof req.body != 'undefined' && req.body){
-        if(typeof req.body.placeId != 'undefined' && req.body.placeId){
-            placeId = parseInt(req.body.placeId);
-            //query DB for info
-            pg.connect(
-            connectionString,
-            function(err, client, done){
-                client.query('SELECT * FROM place WHERE id=$1', [placeId], function(err, result){
-                    //release client
-                    done();
-
-                    //manage errors
-                    if (err){
-                        console.error(err); 
-                    }else{
-                        //get the objects
-                        if(typeof result.rows[0] != 'undefined' && result.rows[0]){
-                            console.log("got place info");
-                            res.render('place.ejs',{
-                                place: result.rows[0]
-                            });
-                        }else{
-                            res.end("Error");
-                        }
-                    }
-                });
-            });
-            
-        }else{
-            res.end("NO ID RECIEVED");
-        }
-    }else{
-        res.end("NO DATA SENT");
-    }
+    rendering.renderPlaceById(req, res);
 });
 
 /**
@@ -176,34 +167,88 @@ app.get("/login", function(req, res){
     //checking for session
     if (typeof sess.username != 'undefined' && sess.username){
         //redirect to manage info page
-        res.render('insert.ejs', {
-            where: "1",
-            newsMessage: "1",
-            placeMessage: "1",
-            eventMessage: "1",
-            flag: "1",
-            title: "",
-            desc: "",
-            data: "",
-            hour: "",
-            place: "",
-            placeName: "",
-            placeAddress: "",
-            placeHistory: "",
-            placeType: "",
-            placeInfo: "",
-            eventName: "",
-            eventAddress: "",
-            eventData : "",
-            eventHours: "",
-            eventDescription: "",
-            eventCost: "",
-            eventPlace: "",
-            eventType: ""
-        });
+        rendering.renderEmptyInsert(res);
     }else{
         //if no session redirect to login
         res.render('login.ejs', {flag: "1"});
+    }
+});
+
+/**
+ * intercepts request POST searching a neame 
+ * checks if there was some parameter inserted, if show an error
+ * else redirect on a page which shows a list with places 
+ * which name pattern machings the string inserted
+ */
+app.post("/search", function(req, res){
+    var placeName;
+    var r;
+    //check body of req
+    if(typeof req.body!='undefined' && req.body){
+        //check parameter needed
+        if(typeof req.body.placesearch != 'undefined' && req.body.placesearch){
+            //parameter present
+            placeName = req.body.placesearch; 
+            
+            //select * from place where lower(name) similar to lower('%biblio%%sci%');
+            //query DB for info
+            pg.connect(
+            connectionString,
+            function(err, client, done){
+                client.query('SELECT * FROM place WHERE lower(name) SIMILAR TO lower($1) ', ['%'+placeName.replace(" ","%%")+'%'], function(err, result){
+                    //release client
+                    done();
+
+                    //manage errors
+                    if (err){
+                        console.error(err); 
+                        r = "-1";
+                    }else{                        
+                        //get the objects
+                        if(typeof result.rows[0] != 'undefined' && result.rows[0]){
+                            r = "1";
+                            console.log("Found: \n" + result.rows);
+                        }else{
+                            r="0";
+                            console.log("nothing");
+                        }
+                    }
+                    
+                    switch(r){
+                        case "0":
+                            //there are no rows after query
+                            res.render('error.ejs',{
+                                message: "We apologize but we don't find any data that match you search. Baut maybe it exist and you typed another name. Try navigate the site to find your place!"
+                            });
+                            break;
+                        case "1":
+                            //there is a result after query
+                            res.render('places.ejs',{
+                                libraries: result.rows
+                                });
+                            console.log("sent Data");
+                            break;
+                        case "-1":
+                            //there are no rows after query
+                            res.render('error.ejs',{
+                                message: "We have some problems with the server! Turn Back later to see if problems will be fixed!"
+                            });
+                            break;
+                    }
+                });
+            });
+            
+        }else{
+            //there are no rows after query
+            res.render('error.ejs',{
+                message: "You didn't insert no word in the field. Check it and try again!"
+            });
+        }
+    }else{
+        //there are no rows after query
+        res.render('error.ejs',{
+            message: "You didn't insert no word in the field. Check it and try again!"
+        });
     }
 });
 
@@ -271,30 +316,7 @@ app.post("/login", function(req, res){
                     req.session.username = username;
                     console.log("session inserted")
                     //redirect to private page
-                    res.render('insert.ejs', {
-                        where: "1",
-                        newsMessage: "1",
-                        placeMessage: "1",
-                        eventMessage: "1",
-                        title: "",
-                        desc: "",
-                        data: "",
-                        hour: "",
-                        place: "",
-                        placeName: "",
-                        placeAddress: "",
-                        placeHistory: "",
-                        placeType: "",
-                        placeInfo: "",
-                        eventName: "",
-                        eventAddress: "",
-                        eventData : "",
-                        eventHours: "",
-                        eventDescription: "",
-                        eventCost: "",
-                        eventPlace: "",
-                        eventType: ""
-                    });
+                    rendering.renderEmptyInsert(res);
                 }else{
                     //admin doesn't exist
                     //redirect to login page
@@ -422,75 +444,36 @@ app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) 
                 client.query('INSERT INTO place(name, address, history, info, type, photo) values ($1::text, $2::text, $3::text, $4::text, $5::int, $6::text);', [name, address, history, info, type, fileName], function(err, result) {
                     //release the client back to the pool
                     done();
-
+                    var resp = "0";
+                    
                     //manages err
                     if (err){ 
                         console.error(err); 
                         text = "Database ERROR during INSERT - " + err;
+                        r="-1";
                     }else{
                         //corect Insert
                         text = "Place succesfully inserted in DB";
                         console.log(text);
+                        r="1";
                     }
 
                     //response here, otherwise the page will be sent before the execution of the query
                     //redirect to the page giving the message
-                    //redirect to the page with a message
-                    res.render('insert.ejs', {
-                        where: "1",
-                        newsMessage: "1",
-                        placeMessage: "OK",
-                        eventMessage: "1",
-                        flag: "1",
-                        title: "",
-                        desc: "",
-                        data: "",
-                        hour: "",
-                        place: "",
-                        placeName: "",
-                        placeAddress: "",
-                        placeHistory: "",
-                        placeType: "",
-                        placeInfo: "",
-                        eventName: "",
-                        eventAddress: "",
-                        eventData : "",
-                        eventHours: "",
-                        eventDescription: "",
-                        eventCost: "",
-                        eventPlace: "",
-                        eventType: ""
-                    });
+                    
+                    if (r=="1"){
+                        rendering.renderMessageInsert(res, "1", "1", "OK", "1", "1");
+                    }else{
+                        rendering.renderMessageInsert(res, "1", "1", text, "1", "1");
+                    }
+                    
+                    
                 });
             });
         }    
     }else{
         //no data sent
-        res.render('insert.ejs', {
-            where: "1",
-            newsMessage: "1",
-            placeMessage: text,
-            eventMessage: "1",
-            flag: "1",
-            title: "",
-            desc: "",
-            data: "",
-            hour: "",
-            place: "",
-            placeName: "",
-            placeAddress: "",
-            placeHistory: "",
-            placeType: "",
-            placeInfo: "",
-            eventName: "",
-            eventAddress: "",
-            eventData : "",
-            eventHours: "",
-            eventDescription: "",
-            eventCost: "",
-            eventPlace: "",
-            eventType: ""
-        });
+        rendering.renderMessageInsert(res, "1", "1", text, "1", "1");
     }
 });
 
@@ -585,39 +568,21 @@ app.post("/newsUpload", function(req, res){
                              [title, description, data, hour, place], function(err, result) {
                     //release the client back to the pool
                     done();
-
+                    var r = "0";
                     //manages err
                     if (err){ 
                         console.error(err); 
                         response = "Database ERROR during INSERT - " + err;
                     }else{
                         //inserted in db OK
-                        console.log('row inserted ');
-                        //redirect to admin page
-                        res.render('insert.ejs',{
-                            where: "2",
-                            newsMessage: "1",
-                            placeMessage: "1",
-                            eventMessage: "OK",
-                            title: title,
-                            desc: description,
-                            data: data,
-                            hour: hour,
-                            place: place,
-                            placeName: "",
-                            placeAddress: "",
-                            placeHistory: "",
-                            placeType: "",
-                            placeInfo: "",
-                            eventName: "",
-                            eventAddress: "",
-                            eventData : "",
-                            eventHours: "",
-                            eventDescription: "",
-                            eventCost: "",
-                            eventPlace: "",
-                            eventType: ""
-                        });
+                        console.log('News inserted ');
+                        r = "1";
+                    }
+                    
+                    if (r == "1"){
+                        rendering.renderMessageInsert(res, "2", "OK", "1", "1", "1")
+                    }else{
+                        rendering.renderMessageInsert(res, "2", "-1", "1", "1", "1")
                     }
 
                 });
@@ -625,30 +590,7 @@ app.post("/newsUpload", function(req, res){
         }    
     }else{
         //no data sent
-        res.render('insert.ejs',{
-            where: "2",
-            newsMessage: text,
-            placeMessage: "1",
-            eventMessage:"1",
-            title: title,
-            desc: description,
-            data: data,
-            hour: hour,
-            place: place,
-            placeName: "",
-            placeAddress: "",
-            placeHistory: "",
-            placeType: "",
-            placeInfo: "",
-            eventName: "",
-            eventAddress: "",
-            eventData : "",
-            eventHours: "",
-            eventDescription: "",
-            eventCost: "",
-            eventPlace: "",
-            eventType: ""
-        });
+        rendering.renderMessageInsert(res, "2", text, "1", "1", "1");
     }
 });
 
@@ -698,9 +640,9 @@ app.post('/eventUpload', function(req, res){
             text = text + "hours; ";
         }
         
-        if(req.body.eventDescription != 'undefined' && req.body.eventDescription){
+        if(req.body.eventDesc != 'undefined' && req.body.eventDesc){
             //parameter not null -> set field
-            description = req.body.eventDescription;
+            description = req.body.eventDesc;
         }else{
             //parameter null -> add text mesage
             text = text + "description; ";
@@ -772,43 +714,26 @@ app.post('/eventUpload', function(req, res){
                 connectionString, 
                 function(err, client, done) {
                 //insert data throught a query
-                client.query('INSERT INTO event(name, address, hour_range, description, cost, place_name, type) VALUES($1, $2, $3, $4, $5, $6, $7);', 
-                             [name, address, hours, description, cost, place, type], function(err, result) {
+                client.query('INSERT INTO event(name, address, data, hour_range, description, cost, place_name, type) VALUES($1, $2, $3, $4, $5, $6, $7,1);', 
+                             [name, address, data, hours, description, cost, place], function(err, result) {
                     //release the client back to the pool
                     done();
+                    var r="0";
 
                     //manages err
                     if (err){ 
-                        console.error(err); 
-                        response = "Database ERROR during INSERT - " + err;
+                        console.error("DB " + err);
                     }else{
                         //inserted in db OK
                         console.log('row inserted ');
+                        r = "1";
+                    }
+                    
+                    if (r=="1"){
                         //redirect to admin page
-                        res.render('insert.ejs',{
-                            where: "3",
-                            newsMessage: "1",
-                            placeMessage: "1",
-                            eventMessage: "OK",
-                            title: "",
-                            desc: "",
-                            data: "",
-                            hour: "",
-                            place: "",
-                            placeName: "",
-                            placeAddress: "",
-                            placeHistory: "",
-                            placeType: "",
-                            placeInfo: "",
-                            eventName: "",
-                            eventAddress: "",
-                            eventData : "",
-                            eventHours: "",
-                            eventDescription: "",
-                            eventCost: "",
-                            eventPlace: "",
-                            eventType: ""
-                        });
+                        rendering.renderMessageInsert(res, "3", "1", "1", "OK", "1");
+                    }else{
+                        rendering.renderMessageInsert(res, "3", "1", "1", "-1", "1");
                     }
 
                 });
@@ -819,46 +744,29 @@ app.post('/eventUpload', function(req, res){
     }else{
         //body undefined
         //redirect on the page with a message
-        res.render('insert.ejs',{
-            where: "3",
-            newsMessage: "1",
-            placeMessage: "1",
-            eventMessage: "-1",
-            title: title,
-            desc: description,
-            data: data,
-            hour: hour,
-            place: place,
-            placeName: "",
-            placeAddress: "",
-            placeHistory: "",
-            placeType: "",
-            placeInfo: "",
-            eventName: "",
-            eventAddress: "",
-            eventHours: "",
-            eventData : "",
-            eventDescription: "",
-            eventCost: "",
-            eventPlace: "",
-            eventType: ""
-        });
+        renderMessageInsert(res, "3", "1", "1", "-1", "1");
     }
 });
 
 /*
- * for destroying session
- 
+ * logs out an admin and destrois the session
+ * after logged out redirect to the home page
+ */
  app.get('/logout',function(req,res){
     req.session.destroy(function(err) {
       if(err) {
-        console.log(err);
-      } else {
-        res.redirect('/');
+        console.log("SessionERR " + err);
+        res.render('error.ejs',{
+            message: "We have some problems with the server! Turn Back later to see if problems will be fixed!"
+        });
+      }else{
+        res.render('home.ejs',{
+            session: "0"
+        });
       }
     });
+ });
     
- */
 
 //start server
 app.listen(app.get('port'), function() {

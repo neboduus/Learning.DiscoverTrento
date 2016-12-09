@@ -5,54 +5,46 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Libraries of Trento</title>
         <meta name="description" content="Home page of Discover Trento Web-Application">
         <meta name="author" content="MarianDiaconu">
         <!-- Favicon -->
         <link rel="icon" href="img/favicon.ico">
         <!-- Bootstrap Latest compiled and minified CSS -->
         <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- my css -->
         <link rel="stylesheet" href="../css/home.css">
-        
-        <title> Login </title>
+        <!-- Fonts -->
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
+
+        <title>Trento News</title>
     </head>
 
     <body>
         <% include ../views/header.ejs %>
         <br>
         <div class="container">
-            <br>
-            
-            <% var x=0;
-               libraries.forEach(function (l){ 
-                    if (x%3==0){ %>
-                        <div class="row">
-                    <% } 
-                        x++;        %>
-                
-                <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail img-responsive" style="width:310px; height:350px;">
-                        <div class="thumb-container">
-                            <img class="img-rounded img-thumbnail" src="../img/photo/<%=l.photo%>" alt="biblio">
-                        </div>
-                        
-                        <div class="caption">
-                            <h3><%=l.name%></h3>
+            <h1>Trento News</h1><br>
+            <% elements.forEach(function (n){  %>
+                <div class="list-group">
+                    <a class="list-group-item active n_m col-md-12">
+                        <div class="col-md-2"><img src="img/news.png" class="img-thumbnail"></div>
+                        <div class="n_i col-md-10">
+                            <div class="col-md-12">
+                                <p class="n_i_t pull-left"><%=n.title%></p>
+                                <p class="n_i_o pull-right"><%=n.data%> <%=n.hour%></p>
+                            </div>
+                            <div class="clearer"></div>
+                            <div class="col-md-12">
+                                <p class="n_i_d"><%=n.description%></p>
+                                <p class="n_i_p"><%=n.place_name%></p>
+                            </div>
                             
-                            <form method="POST" action="http://localhost:5000/place">
-                                <input type="hidden" name="placeId" value="<%=l.id%>">
-                                <p>
-                                    <button class="btn btn-primary btn-bottom" type="submit">Details</button>
-                                </p>    
-                            </form>
                             
                         </div>
-                        
-                    </div>
+                    </a>
                 </div>
-                
             <% }) %>
-            </div>
         </div>
         
         <br><br><br>
@@ -62,7 +54,6 @@
         <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="     crossorigin="anonymous"></script>
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <script src="../scripts/tryLogin.js"></script> 
     </body>
 
 </html>

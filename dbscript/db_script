@@ -14,7 +14,7 @@ create table event(
 	data varchar(20) not null,
 	hour_range varchar(20) not null,
 	description text not null,
-	cost smallint not null,
+	cost varchar(50) not null,
 	place_name varchar(50),
 	type smallint);
 

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-    
+<html> 
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,42 +29,72 @@
                 </div>
                 <div class="col-md-4">
                     <div class="resize" >
-                        <img id="resized" src="../img/Trento_dall_alto.jpg">                   
+                        <img id="resized" src="../img/Trento_dall_alto.jpg" alt="welcomeImg">                   
                     </div>
                 </div>
             </div>
         </div>
             
         <div class="container">
-        <!-- Home Page Content -->        
-            <div class="row">
-                
+            <!-- Home Page Content -->        
+            <div class="row">     
                 <div class="col-md-6">
-                    <h2>Last News</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><a class="btn btn-default" href="#" role="button">More News!! »</a></p>
+                    <h2>Place of the week</h2>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="thumbnail">
+                            <div class="img-bestweek">
+                                <img class="img-lib2" src="../img/photo/<%=bestplaces[0].photo%>" alt="bestweek photo">
+                            </div>
+                            
+                            <div class="caption">
+                                <h3><%=bestplaces[0].name%></h3>
+                                <br>
+                                <form method="POST" action="http://localhost:5000/place">
+                                    <input type="hidden" name="placeId" value="<%=bestplaces[0].id%>">
+                                    <p>
+                                        <button class="btn btn-primary btn-bottom" type="submit">Details</button>
+                                    </p>    
+                                </form>                
+                            </div>
+                            
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="col-md-6">
                     <h2>Weather</h2>
                     <iframe style="max-width:100%; max-height:100%;" src="https://www.meteoblue.com/en/weather/widget/three?geoloc=detect&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=image"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups" style="width: 460px;height: 593px"></iframe>
-                </div>
-                
+                </div>               
             </div>
             
             <div class="row">
+ 
                 <div class="col-md-12">
-                    <h2>Some Places to visit</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><a class="btn btn-default" href="#" role="button">More Places! »</a></p>
-                </div>                
-            </div>
-                       
+                    <h2>Last News</h2>
+                        <% lastnews.forEach(function (n){  %>
+                            <div class="list-group">
+                                <a class="list-group-item active n_m col-md-12">
+                                    <div class="col-md-2"><img src="img/news.png" class="img-thumbnail"></div>
+                                    <div class="n_i col-md-10">
+                                        <div class="col-md-12">
+                                            <p class="n_i_t pull-left"><%=n.title%></p>
+                                            <p class="n_i_o pull-right"><%=n.data%> <%=n.hour%></p>
+                                        </div>
+                                        <div class="clearer"></div>
+                                        <div class="col-md-12">
+                                            <p class="n_i_d"><%=n.description%></p>
+                                            <p class="n_i_p"><%=n.place_name%></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        <% }) %>
+                </div>
+            </div>               
         </div>
 
-        <br>
-        <br>
-        <br>
-        
+        <br><br><br>
         <% include ../views/footer.ejs %>
     
         <!-- Bootstrap javascript -->

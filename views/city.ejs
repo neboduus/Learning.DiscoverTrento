@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+        <title>Places Categories</title>
         <meta name="description" content="Home page of Discover Trento Web-Application">
         <meta name="author" content="MarianDiaconu">
         <!-- Favicon -->
@@ -13,46 +13,47 @@
         <!-- Bootstrap Latest compiled and minified CSS -->
         <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/home.css">
-
-        <title>Places Categories</title>
+        
+        <title> Login </title>
     </head>
 
     <body>
-        <%include ../views/header.ejs %>
+        <% include ../views/header.ejs %>
         <br>
-        <div class="container">   
+        <div class="container">           
             <div class="row">
-                <div class="col-md-4"></div>
+                <div class="col-md-4"></div>               
                 <div class="col-md-4">
                     <div class="thumbnail">
-                        <img src="../img/universita.jpg" alt="universita">
+                        <img src="../img/dante.jpg" alt="universita">
                         <div class="caption">
-                            <h3>University Places</h3>
-                            <p>Here you can find places of University of Trento like Libraries, UniTN Departements and more</p>
-                            <p><a href="http://localhost:5000/university" class="btn btn-primary" role="button">See Places</a> 
+                            <h3>Monuments</h3>
+                            <p>Here you can find Monuments of Trento city like Cesare Battisti Mausoleum and more</p>
+                            <p><a href="http://localhost:5000/monuments" class="btn btn-primary" role="button">See Places</a> 
                             </p>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4"></div> 
-            </div>
-            <br>
-            <div class="row">  
-                <div class="col-md-4"></div> 
+                </div>               
+                <div class="col-md-4"></div>               
+            </div>          
+            <br>           
+            <div class="row">             
+                <div class="col-md-4"></div>             
                 <div class="col-md-4">
                     <div class="thumbnail">
-                        <img src="../img/citta.jpg" alt="city">
+                        <img src="../img/piazza.jpg" alt="city">
                         <div class="caption">
-                            <h3>City Places</h3>
-                            <p>Here you can find places of City of Trento like Squares, Castels, monuments and more</p>
-                            <p><a href="http://localhost:5000/city" class="btn btn-primary" role="button">See Places</a> 
+                            <h3>Squares</h3>
+                            <p>Here you can find squares of Trento City like Dante Square, Venezia square and more</p>
+                            <p><a href="http://localhost:5000/squares" class="btn btn-primary" role="button">See Places</a> 
                             </p>
                         </div>
                     </div>
-                </div>
+                </div>         
                 <div class="col-md-4"></div>
             </div>
-        </div>       
+        </div>
+        
         <br><br><br>
         <% include ../views/footer.ejs %>
         

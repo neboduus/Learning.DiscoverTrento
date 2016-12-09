@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- metadata -->  
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Home page of Discover Trento Web-Application">
+        <meta name="author" content="MarianDiaconu">
+        <!-- Favicon -->
+        <link rel="icon" href="img/favicon.ico">
+        <!-- Bootstrap Latest compiled and minified CSS -->
+        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- my css -->
+        <link rel="stylesheet" href="../css/home.css">
+        <!-- Fonts -->
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
+        
+        <title>Events of Trento</title>
+    </head>
+
+    <body>
+        <%include ../views/header.ejs %>
+        
+        <div class="container">
+            <h1>Trento Events</h1><br>
+            <% elements.forEach(function (e){  %>       
+                <div class="list-group">
+                    <a class="list-group-item col-md-12 n_m">
+                        <div class="col-md-2"><img src="img/event.png" class="img-thumbnail"></div>
+                        <div class="n_i col-md-10">
+                            <div class="col-md-8">
+                                <p class="n_i_t"><%=e.name%></p>
+                                <p class="n_i_d"><%=e.description%></p>                    
+                            </div>
+                            <div class="col-md-4 n_i_a">
+                                <p>Place Name: <%=e.place_name%></p>
+                                <p>Address: <%=e.address%></p>
+                                <p>Date: <%=e.data%></p>
+                                <p>Hour: <%=e.hour_range%></p>
+                                <p>Cost: <%=e.cost%></p>
+                            </div>
+                        </div>            
+                    </a>
+                    <div class="clearer"></div>
+                </div> 
+            
+            <% }) %>
+        </div>
+        <br><br><br>
+        <%include ../views/footer.ejs %>
+        
+        <!-- Scripts -->
+        <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="     crossorigin="anonymous"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    </body>
+
+</html>

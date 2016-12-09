@@ -1,48 +1,40 @@
-        <!-- Barra -->
-        <nav class="navbar navbar-inverse navbar-ficex-top">
-            <div class="container">
-                
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="http://localhost:5000/">Discover Trento <small>and surroundings </small></a>
-                </div>
-                
-                <div id="navbar" class="navbar-collapse collapse">
-                    
-                    <form class="navbar-form navbar-right">    
-                        
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Search for...">
-                          <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                          </span>
-                        </div>
-                        
-                        <!--
-                        <div class="form-group">
-                            <input type="text" placeholder="Place name" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-success">Search</button>
-                        -->
-                        
-                        <a type="button" href="http://localhost:5000/categories" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
-                            Places
-                        </a>
-                        
-                        <button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
-                            Events
+ <!-- Barra -->
+ <nav class="navbar navbar-inverse navbar-ficex-top">
+    <div class="container">            
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost:5000/">
+                Discover Trento 
+                <small>
+                    and surroundings 
+                </small>
+            </a>
+        </div>        
+        <div id="navbar" class="navbar-collapse collapse">            
+            <form method="post" action="http://localhost:5000/search" class="navbar-form navbar-right">                
+                <div class="input-group">
+                    <input name="placesearch" type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            Go!
                         </button>
-                        
-                        <button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
-                            News
-                        </button>
-                        
-                  </form>
-                </div>
-            </div>
-        </nav>
+                    </span>
+                </div>        
+                <a type="button" href="http://localhost:5000/categories" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                    Places
+                </a>        
+                <a type="button" href="http://localhost:5000/events" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                    Events
+                </a>        
+                <a type="button" href="http://localhost:5000/news" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                    News
+                </a>            
+            </form>
+        </div>
+    </div>
+</nav>
