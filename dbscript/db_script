@@ -31,6 +31,3 @@ create table admin(
     password varchar(20));
 
 insert into admin(username, password) values ('nepotu', 'calculator');
-
-insert into place(name, address, lat, long, history, info, type, photo_id)
-	values('Piazza Dante', 'Trento Centro', 0, 0, 'storia breve', 'aperto tutti i giorni', 0, 1);

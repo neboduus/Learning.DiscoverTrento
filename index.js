@@ -30,7 +30,7 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 //string that allows connection to DB
-var connectionString = process.env.DATABASE_URL || 'postgres://mario:calculator@localhost/discoverdb';
+var connectionString = process.env.DATABASE_URL;
 
 //defining some static content
 app.use("/img", express.static(__dirname + '/img'));
