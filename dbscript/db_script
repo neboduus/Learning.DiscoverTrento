@@ -30,8 +30,6 @@ create table admin(
     username varchar(20) primary key,
     password varchar(20));
 
-insert into photo(url) values('/img/discover_icon.png');
-
 insert into admin(username, password) values ('nepotu', 'calculator');
 
 insert into place(name, address, lat, long, history, info, type, photo_id)

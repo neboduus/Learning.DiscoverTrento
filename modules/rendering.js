@@ -1,13 +1,18 @@
+/*
+ *  That module helps server to render a view depending on various parameter
+ */
+
+//db connection library
 var pg = require('pg');
-//general lib
 //string that allows connection to DB
 var connectionString = process.env.DATABASE_URL || 'postgres://mario:calculator@localhost/discoverdb';
+//library that let simultaneous queries on the same connection
 var pgp = require('pg-promise')();
 var db = pgp(connectionString);
 
 /**
- * @brief this function says "hello"
- * @return the string "Hello"
+ * @brief binds the response on a page where admin can manage info viewed on the site
+ * @return private admin page
  */
 var renderEmptyInsert = function(res){
     res.render('insert.ejs', {
@@ -37,12 +42,15 @@ var renderEmptyInsert = function(res){
         });
 };
 
+/*
+ * binds the response on the private admin page and shows a page with some messages about modifies POSTED
+ */
 var renderMessageInsert = function(res, where, newsMessage, placeMessage, eventMessage, flag){
     res.render('insert.ejs', {
-        where: where,
-        newsMessage: newsMessage,
-        placeMessage: placeMessage,
-        eventMessage: eventMessage,
+        where: where,               //tell what tab make active
+        newsMessage: newsMessage,   //news tab msg
+        placeMessage: placeMessage, //place tab msg
+        eventMessage: eventMessage, //event tab msg
         flag: flag,
         title: "",
         desc: "",
@@ -65,9 +73,14 @@ var renderMessageInsert = function(res, where, newsMessage, placeMessage, eventM
         });
 };
 
+/*
+ * after user choose a category, this funct returns a page with all places of that category
+ */
 var renderPlaceByType = function(type, res){
     var check = "0";
     var message = "";
+    
+    //check for what page is the error msg
     switch(type){
         case 0: 
             message= "There are no department in ours archieves! Turn back later when we will upload more places!";
@@ -127,6 +140,10 @@ var renderPlaceByType = function(type, res){
         }
     );
 }
+
+/**
+* gets all the rows of a table and binds them on a page that shows them
+*/
 
 var renderByTable = function(table, res){
     var r = "0";
@@ -189,6 +206,9 @@ var renderByTable = function(table, res){
     });
 }
 
+/*
+ *  get all the place info and redirect on a personalized place for that place
+ */
 var renderPlaceById = function(req, res){
     var placeId;
     var check = "";
@@ -253,11 +273,11 @@ var renderPlaceById = function(req, res){
     }
 }
 
-
-
+/*
+ * make 2 simultaneus queries to the DB (gets the info to show on the homepage) and render the homepage
+ */
 var renderHome  = function(res){
     db.tx(function (t) {
-        // `t` and `this` here are the same;
         // this.ctx = transaction config + state context;
         return t.batch([
             t.many("SELECT * FROM place ORDER BY id DESC LIMIT 1"),
@@ -265,10 +285,7 @@ var renderHome  = function(res){
         ]);
     })
     .then(function (data) {
-        // success;
-        console.log(data[0]);
-        console.log(data[1]);
-        
+        // success;        
         res.render('home.ejs',{
             bestplaces: data[0],
             lastnews: data[1]
@@ -283,7 +300,7 @@ var renderHome  = function(res){
     
 }
 
-
+//export functions
 exports.renderHome = renderHome;
 exports.renderPlaceById = renderPlaceById;
 exports.renderEmptyInsert = renderEmptyInsert;

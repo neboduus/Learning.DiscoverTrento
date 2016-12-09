@@ -60,11 +60,6 @@ app.use(bodyParser.json());
  * @return the first page of the app
  */
 app.get('/', function(req, res) {  
-    /*
-    res.render('home.ejs',{
-        req: req
-    });
-    */
     rendering.renderHome(res);
 });
 
@@ -218,7 +213,7 @@ app.post("/search", function(req, res){
                         case "0":
                             //there are no rows after query
                             res.render('error.ejs',{
-                                message: "We apologize but we don't find any data that match you search. Baut maybe it exist and you typed another name. Try navigate the site to find your place!"
+                                message: "We apologize but we don't find any data that match you search. But maybe the place which you're searching exists but you typed another name. Try navigate the site to find your place!"
                             });
                             break;
                         case "1":
@@ -231,7 +226,7 @@ app.post("/search", function(req, res){
                         case "-1":
                             //there are no rows after query
                             res.render('error.ejs',{
-                                message: "We have some problems with the server! Turn Back later to see if problems will be fixed!"
+                                message: "We have some problems with the server! Come back later to see if problems will be fixed!"
                             });
                             break;
                     }
