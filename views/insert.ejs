@@ -1,30 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>        
-        <!-- metadata -->  
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Home page of Discover Trento Web-Application">
-        <meta name="author" content="MarianDiaconu">
-        <!-- Favicon -->
-        <link rel="icon" href="img/favicon.ico">
-        
-        <!-- Scripts moved in head of the page due to errors -->
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="     crossorigin="anonymous"></script>
-        <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
-        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>               
-        
-        <!-- Personal styles -->
-        <link rel="stylesheet" href="../css/home.css">
+        <!-- metadata -->
+        <%include ../views/head.ejs %>
         
         <title> Insertion Page </title>
     </head>
@@ -237,6 +215,8 @@
         
         <br><br><br>
         <% include ../views/footer.ejs %>
+        <!-- Scripts -->
+        <%include ../views/tail.ejs %>
     </body>
 
 </html>

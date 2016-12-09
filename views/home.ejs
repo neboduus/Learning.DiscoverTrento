@@ -1,20 +1,8 @@
 <!DOCTYPE html>
 <html> 
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Discover Trento Places</title>
-        <meta name="description" content="Home page of Discover Trento Web-Application">
-        <meta name="author" content="MarianDiaconu">
-        <!-- Favicon -->
-        <link rel="icon" href="img/favicon.ico">
-        <!-- Bootstrap Latest compiled and minified CSS -->
-        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Custom styles from bootstrap -->
-        <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
-        <!-- Personal styles -->
-        <link rel="stylesheet" href="../css/home.css">
+        <!-- metadata -->
+        <%include ../views/head.ejs %>
     </head>
     
     <body>
@@ -97,8 +85,7 @@
         <br><br><br>
         <% include ../views/footer.ejs %>
     
-        <!-- Bootstrap javascript -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+        <!-- Scripts -->
+        <%include ../views/tail.ejs %>
     </body>
 </html>
