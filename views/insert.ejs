@@ -52,12 +52,12 @@
                             <label>
                                 Name:
                             </label><br>
-                            <input type="text" name="placeName" value="<%=placeName %>"><br>
+                            <input type="text" name="placeName" value="<%=placeName %>" maxlength="50"/><br>
                             
                             <label>
                                 Address:
                             </label><br>
-                            <input id="place_address" name="placeAddress" type="text" value="<%=placeAddress %>"/><br>
+                            <input id="place_address" name="placeAddress" type="text" value="<%=placeAddress %>" maxlength="200"/><br>
                             
                             <label>
                                 History:
@@ -108,7 +108,7 @@
                             <label>
                                 Title:
                             </label><br>
-                            <input type="text" name="title" id="title" value="<%=title%>"><br>
+                            <input type="text" name="title" id="title" value="<%=title%>" maxlength="45"><br>
                             
                             <label>
                                 Description:
@@ -120,17 +120,17 @@
                             <label>
                                 Date:
                             </label><br>
-                            <input type="text" name="data" id="data" value="<%=data%>"><br>
+                            <input type="text" name="data" id="data" value="<%=data%>" maxlength="20"><br>
                             
                             <label>
                                 Hour:
                             </label><br>
-                            <input type="text" name="hour" id="hour" value="<%=hour%>"><br>
+                            <input type="text" name="hour" id="hour" value="<%=hour%>" maxlength="20"><br>
                             
                             <label>
                                 Place Name:
                             </label><br>
-                            <input type="text" name="place" id="place" value="<%=place%>"><br>
+                            <input type="text" name="place" id="place" value="<%=place%>" maxlength="45"><br>
                             <br><br>
                             <button id="news_btn" class="btn btn-success" type="submit" >
                                 Insert News
@@ -157,22 +157,22 @@
                             <label>
                                 Name:
                             </label><br>
-                            <input type="text" name="eventName" value="<%=eventName%>"><br>
+                            <input type="text" name="eventName" value="<%=eventName%>" maxlength="95"><br>
                             
                             <label>
                                 Address:
                             </label><br>
-                            <input type="text" name="eventAddress" value="<%=eventAddress%>"><br>
+                            <input type="text" name="eventAddress" value="<%=eventAddress%>" maxlength="195"><br>
                             
                             <label>
                                 Date:
                             </label><br>
-                            <input type="text" name="eventData" value="<%=eventData%>"><br>
+                            <input type="text" name="eventData" value="<%=eventData%>" maxlength="100"><br>
                             
                             <label>
                                 Hours Range:
                             </label><br>
-                            <input type="text" name="eventHours" value="<%=eventHours%>"><br>
+                            <input type="text" name="eventHours" value="<%=eventHours%>" maxlength="95"><br>
                             
                             <label>
                                 Description:
@@ -184,17 +184,17 @@
                             <label>
                                 Cost:
                             </label><br>
-                            <input type="text" name="eventCost" value="<%=eventCost%>"><br>
+                            <input type="text" name="eventCost" value="<%=eventCost%>" maxlength="40"/><br>
                             
                             <label>
                                 Place Name:
                             </label><br>
-                            <input type="text" name="eventPlace" value="<%=eventPlace%>"><br>
+                            <input type="text" name="eventPlace" value="<%=eventPlace%>" maxlength="40"/><br>
                             
                             <label>
                                 Type:
                             </label><br>
-                            <input type="number" name="eventType" min="0" max="4" value="<%=eventType%>">
+                            <input type="number" name="eventType" min="0" max="4" value="<%=eventType%>"/>
                             <i>
                                 <br>0 for University Event<br>
                                 1 for Politics <br>

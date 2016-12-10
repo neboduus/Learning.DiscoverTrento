@@ -4,15 +4,15 @@ create table place(
 	address varchar(200) not null,
 	history text not null,
 	info text,
-	type smallint,
+	type smallint, 
     photo varchar(200));
 
 create table event(
 	id serial not null primary key,
-	name varchar(50) not null,
+	name varchar(100) not null,
 	address varchar(200),
-	data varchar(20) not null,
-	hour_range varchar(20) not null,
+	data varchar(100) not null,
+	hour_range varchar(100) not null,
 	description text not null,
 	cost varchar(50) not null,
 	place_name varchar(50),
