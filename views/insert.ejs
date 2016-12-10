@@ -120,12 +120,12 @@
                             <label>
                                 Date:
                             </label><br>
-                            <input type="text" name="data" id="data" value="<%=data%>" maxlength="20"><br>
+                            <input type="text" name="data" id="data" value="<%=data%>" maxlength="19"><br>
                             
                             <label>
                                 Hour:
                             </label><br>
-                            <input type="text" name="hour" id="hour" value="<%=hour%>" maxlength="20"><br>
+                            <input type="text" name="hour" id="hour" value="<%=hour%>" maxlength="19"><br>
                             
                             <label>
                                 Place Name:
@@ -151,7 +151,7 @@
                             <% }else if(eventMessage != "OK"){ %>
                                 <div class="alert alert-danger" role="alert"><%=eventMessage%></div>
                             <% }else{ %> 
-                                <div class="alert alert-success" role="alert">News successfully inserted!</div>
+                                <div class="alert alert-success" role="alert">Event successfully inserted!</div>
                             <% }; %>
 
                             <label>
