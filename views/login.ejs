@@ -13,38 +13,38 @@
             <br>
             <div class="alert alert-info" role="alert"><b>Admin login only!</b> <small>normal users are not allowed</small></div>
             
-                    <form id="logForm" method="POST" action="https://blooming-reef-42377.herokuapp.com/login">
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon2"></span>
-                            <input class="form-control" placeholder="Username" aria-describedby="basic-addon1" id="username" type="text" name="user">
-                        </div>
-                        <br>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon2"></span>
-                            <input class="form-control" placeholder="Password" aria-describedby="basic-addon1" id="password" type="password" name="psw">
-                        </div>
-                        <br>
-                        <br>
-                        <div class="wrapper">
-                            <button class=" btn btn-lg btn-default" type="submit" >
-                                Login
-                            </button>
-                        </div>
-                    </form>
-                    <br>
+            <form id="logForm" method="POST" action="https://blooming-reef-42377.herokuapp.com/login">
                 <br>
-                <% if (flag == "-1"){ %>
-                    <div class="alert alert-danger" role="alert">Username or Password are wrong!</div>
-                <% }else{ %> 
-                    <div class="alert alert-success" role="alert">Insert your credentials and try to Login!</div>
-                <% }; %>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon2"></span>
+                    <input class="form-control" placeholder="Username" aria-describedby="basic-addon1" id="username" type="text" name="user">
+                </div>
+                <br>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon2"></span>
+                    <input class="form-control" placeholder="Password" aria-describedby="basic-addon1" id="password" type="password" name="psw">
+                </div>
+                <br>
+                <br>
+                <div class="wrapper">
+                    <button class=" btn btn-lg btn-default" type="submit" >
+                        Login
+                    </button>
+                </div>
+            </form>
+            <br>
+            
+            <br>
+            <% if (flag == "-1"){ %>
+                <div class="alert alert-danger" role="alert">Username or Password are wrong!</div>
+            <% }else{ %> 
+                <div class="alert alert-success" role="alert">Insert your credentials and try to Login!</div>
+            <% }; %>
         </div>
         
         <br><br><br>
         <% include ../views/footer.ejs %>
-        
         <!-- Scripts -->
         <%include ../views/tail.ejs %>
     </body>
