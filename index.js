@@ -60,12 +60,6 @@ app.use(bodyParser.json());
  * @return the first page of the app
  */
 app.get('/', function(req, res) {  
-    //set the headers of the responce
-    var headers = {};
-    //answer
-    headers["Content-Type"] = "text/html";
-    response.writeHead(200, headers);
-    
     rendering.renderHome(res);
 });
 
@@ -74,12 +68,6 @@ app.get('/', function(req, res) {
  * @return a page with 2 categories of places -> City places and University Places
  */
 app.get('/categories', function(req, res){
-    //set the headers of the responce
-    var headers = {};
-    //answer
-    headers["Content-Type"] = "text/html";
-    response.writeHead(200, headers);
-    
     res.render('categories.ejs',{
         req: req
     });
