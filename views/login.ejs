@@ -32,17 +32,13 @@
                     </button>
                 </div>
             </form>
-            <br>
-            
-            <br>
             <% if (flag == "-1"){ %>
                 <div class="alert alert-danger" role="alert">Username or Password are wrong!</div>
             <% }else{ %> 
                 <div class="alert alert-success" role="alert">Insert your credentials and try to Login!</div>
             <% }; %>
         </div>
-        
-        <br><br><br>
+
         <% include ../views/footer.ejs %>
         <!-- Scripts -->
         <%include ../views/tail.ejs %>
