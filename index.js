@@ -575,9 +575,33 @@ app.post("/newsUpload", function(req, res){
                     }
                     
                     if (r == "1"){
-                        rendering.renderMessageInsert(res, "2", "OK", "1", "1", "1")
+                        rendering.renderMessageInsert(res, "2", "OK", "1", "1", "1");
                     }else{
-                        rendering.renderMessageInsert(res, "2", "-1", "1", "1", "1")
+                        //redirect to the inserting page giving a message
+                        res.render('insert.ejs',{
+                            where: "2",
+                            newsMessage: "NEWS not inserted due to DB errors. Try again later!",
+                            placeMessage: "1",
+                            eventMessage: "1",
+                            title: title,
+                            desc: description,
+                            data: data,
+                            hour: hour,
+                            place: place,
+                            placeName: "",
+                            placeAddress: "",
+                            placeHistory: "",
+                            placeType: "",
+                            placeInfo: "",
+                            eventName: "",
+                            eventAddress: "",
+                            eventData : "",
+                            eventHours: "",
+                            eventDescription: "",
+                            eventCost: "",
+                            eventPlace: "",
+                            eventType: ""
+                        });
                     }
 
                 });
@@ -728,7 +752,7 @@ app.post('/eventUpload', function(req, res){
                         //redirect to admin page
                         rendering.renderMessageInsert(res, "3", "1", "1", "OK", "1");
                     }else{
-                        rendering.renderMessageInsert(res, "3", "1", "1", "-1", "1");
+                        rendering.renderMessageInsert(res, "3", "1", "1", "Event not inserted! try again!", "1");
                     }
 
                 });
