@@ -21,7 +21,7 @@ var multer  = require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         //set folder
-        cb(null, 'img/photo')
+        cb(null, 'img')
     },
     filename: function (req, file, cb) {
         //set how to rename
