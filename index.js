@@ -459,7 +459,32 @@ app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) 
                     if (r=="1"){
                         rendering.renderMessageInsert(res, "1", "1", "OK", "1", "1");
                     }else{
-                        rendering.renderMessageInsert(res, "1", "1", text, "1", "1");
+                        //redirect to the page with a message
+                        res.render('insert.ejs', {
+                            where: "1",
+                            newsMessage: "1",
+                            placeMessage: "Place not inserted due to DB errors. We apologie, try again later!",
+                            eventMessage: "1",
+                            flag: "1",
+                            title: "",
+                            desc: "",
+                            data: "",
+                            hour: "",
+                            place: "",
+                            placeName: name,
+                            placeAddress: address,
+                            placeHistory: history,
+                            placeType: type,
+                            placeInfo: info,
+                            eventName: "",
+                            eventAddress: "",
+                            eventData : "",
+                            eventHours: "",
+                            eventDescription: "",
+                            eventCost: "",
+                            eventPlace: "",
+                            eventType: ""
+                        });
                     }
                     
                     
@@ -467,8 +492,32 @@ app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) 
             });
         }    
     }else{
-        //no data sent
-        rendering.renderMessageInsert(res, "1", "1", text, "1", "1");
+        //redirect to the page with a message
+        res.render('insert.ejs', {
+            where: "1",
+            newsMessage: "1",
+            placeMessage: "Place not inserted because you did not inserted anything in the fields. Please Try again!",
+            eventMessage: "1",
+            flag: "1",
+            title: "",
+            desc: "",
+            data: "",
+            hour: "",
+            place: "",
+            placeName: name,
+            placeAddress: address,
+            placeHistory: history,
+            placeType: type,
+            placeInfo: info,
+            eventName: "",
+            eventAddress: "",
+            eventData : "",
+            eventHours: "",
+            eventDescription: "",
+            eventCost: "",
+            eventPlace: "",
+            eventType: ""
+        });
     }
 });
 
@@ -577,15 +626,62 @@ app.post("/newsUpload", function(req, res){
                     if (r == "1"){
                         rendering.renderMessageInsert(res, "2", "OK", "1", "1", "1")
                     }else{
-                        rendering.renderMessageInsert(res, "2", "-1", "1", "1", "1")
+                        //redirect to the inserting page giving a message
+                        res.render('insert.ejs',{
+                            where: "2",
+                            newsMessage: "NEWS not inserted due to DB errors. Try again later!",
+                            placeMessage: "1",
+                            eventMessage: "1",
+                            title: title,
+                            desc: description,
+                            data: data,
+                            hour: hour,
+                            place: place,
+                            placeName: "",
+                            placeAddress: "",
+                            placeHistory: "",
+                            placeType: "",
+                            placeInfo: "",
+                            eventName: "",
+                            eventAddress: "",
+                            eventData : "",
+                            eventHours: "",
+                            eventDescription: "",
+                            eventCost: "",
+                            eventPlace: "",
+                            eventType: ""
+                        });
                     }
 
                 });
             });
         }    
     }else{
-        //no data sent
-        rendering.renderMessageInsert(res, "2", text, "1", "1", "1");
+        //redirect to the inserting page giving a message
+        res.render('insert.ejs',{
+            where: "2",
+            newsMessage: "NEWS not inserted because your fields were empty!",
+            placeMessage: "1",
+            eventMessage: "1",
+            title: title,
+            desc: description,
+            data: data,
+            hour: hour,
+            place: place,
+            placeName: "",
+            placeAddress: "",
+            placeHistory: "",
+            placeType: "",
+            placeInfo: "",
+            eventName: "",
+            eventAddress: "",
+            eventData : "",
+            eventHours: "",
+            eventDescription: "",
+            eventCost: "",
+            eventPlace: "",
+            eventType: ""
+        });
     }
 });
 
@@ -728,7 +824,33 @@ app.post('/eventUpload', function(req, res){
                         //redirect to admin page
                         rendering.renderMessageInsert(res, "3", "1", "1", "OK", "1");
                     }else{
-                        rendering.renderMessageInsert(res, "3", "1", "1", "-1", "1");
+                        //redirect to the page with a message
+                        //ad pass what inserted in the last iteraction
+                        res.render('insert.ejs', {
+                            where: "3",
+                            newsMessage: "1",
+                            placeMessage: "1",
+                            eventMessage: "EVENT not inserted due to DB errors",
+                            flag: "1",
+                            title: "",
+                            desc: "",
+                            data: "",
+                            hour: "",
+                            place: "",
+                            placeName: "",
+                            placeAddress: "",
+                            placeHistory: "",
+                            placeType: "",
+                            placeInfo: "",
+                            eventName: name,
+                            eventAddress: address,
+                            eventData : data,
+                            eventHours: hours,
+                            eventDescription: description,
+                            eventCost: cost,
+                            eventPlace: place,
+                            eventType: type
+                        });
                     }
 
                 });
@@ -739,7 +861,31 @@ app.post('/eventUpload', function(req, res){
     }else{
         //body undefined
         //redirect on the page with a message
-        renderMessageInsert(res, "3", "1", "1", "-1", "1");
+        res.render('insert.ejs', {
+            where: "3",
+            newsMessage: "1",
+            placeMessage: "1",
+            eventMessage: "EVENT not inserted because the fields were empty. Try again!",
+            flag: "1",
+            title: "",
+            desc: "",
+            data: "",
+            hour: "",
+            place: "",
+            placeName: "",
+            placeAddress: "",
+            placeHistory: "",
+            placeType: "",
+            placeInfo: "",
+            eventName: name,
+            eventAddress: address,
+            eventData : data,
+            eventHours: hours,
+            eventDescription: description,
+            eventCost: cost,
+            eventPlace: place,
+            eventType: type
+        });
     }
 });
 
