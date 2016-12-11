@@ -69,7 +69,7 @@ app.get('/', function(req, res) {
  */
 app.get('/categories', function(req, res){
     res.set('Content-Type', 'text/html');
-    res.render('categories.ejs',{
+    res.status(200).render('categories.ejs',{
         req: req
     });
 });
