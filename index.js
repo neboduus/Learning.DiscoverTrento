@@ -1,7 +1,5 @@
 //utility lib
 var util = require('util');
-//for binding in the template
-var bind = require('bind');
 //express lib
 var express = require('express');
 //connect DB
@@ -68,7 +66,7 @@ app.get('/', function(req, res) {
  * @return a page with 2 categories of places -> City places and University Places
  */
 app.get('/categories', function(req, res){
-    res.render('categories.ejs',{
+    res.status(200).render('categories.ejs',{
         req: req
     });
 });
