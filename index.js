@@ -68,6 +68,7 @@ app.get('/', function(req, res) {
  * @return a page with 2 categories of places -> City places and University Places
  */
 app.get('/categories', function(req, res){
+    res.set('Content-Type', 'text/html');
     res.render('categories.ejs',{
         req: req
     });

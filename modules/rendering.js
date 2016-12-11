@@ -11,7 +11,7 @@ var db = pgp(connectionString);
  * @return private admin page
  */
 var renderEmptyInsert = function(res){
-    res.render('insert.ejs', {
+    res.status(200).render('insert.ejs', {
         where: "1",
         newsMessage: "1",
         placeMessage: "1",
@@ -42,7 +42,7 @@ var renderEmptyInsert = function(res){
  * binds the response on the private admin page and shows a page with some messages about modifies POSTED
  */
 var renderMessageInsert = function(res, where, newsMessage, placeMessage, eventMessage, flag){
-    res.render('insert.ejs', {
+    res.status(200).render('insert.ejs', {
         where: where,               //tell what tab make active
         newsMessage: newsMessage,   //news tab msg
         placeMessage: placeMessage, //place tab msg
@@ -80,6 +80,7 @@ var renderPlaceByType = function(type, res){
     switch(type){
         case 0: 
             message= "There are no department in ours archieves! Turn back later when we will upload more places!";
+            status = 404;
             break;
         case 1:
             message= "There are no libraries in ours archieves! Turn back later when we will upload more places!";
