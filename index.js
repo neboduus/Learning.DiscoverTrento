@@ -1,5 +1,7 @@
 //utility lib
 var util = require('util');
+//for binding in the template
+var bind = require('bind');
 //express lib
 var express = require('express');
 //connect DB
@@ -19,7 +21,7 @@ var multer  = require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         //set folder
-        cb(null, 'img/photo')
+        cb(null, 'img')
     },
     filename: function (req, file, cb) {
         //set how to rename
@@ -28,7 +30,7 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 //string that allows connection to DB
-var connectionString = process.env.DATABASE_URL || 'postgres://mario:calculator@localhost/discoverdb';
+var connectionString = process.env.DATABASE_URL;
 
 //defining some static content
 app.use("/img", express.static(__dirname + '/img'));
@@ -66,6 +68,7 @@ app.get('/', function(req, res) {
  * @return a page with 2 categories of places -> City places and University Places
  */
 app.get('/categories', function(req, res){
+    res.set('Content-Type', 'text/html');
     res.status(200).render('categories.ejs',{
         req: req
     });
@@ -76,7 +79,8 @@ app.get('/categories', function(req, res){
  * @return a page with 2 categories of university places -> Libraries and Departments
  */
 app.get('/university', function(req, res){
-    res.render('university.ejs',{
+    res.set('Content-Type', 'text/html');
+    res.status(200).render('university.ejs',{
         req: req
     });
 });
@@ -162,13 +166,14 @@ app.get("/login", function(req, res){
         //redirect to manage info page
         rendering.renderEmptyInsert(res);
     }else{
+        res.set('Content-Type', 'text/html');
         //if no session redirect to login
-        res.render('login.ejs', {flag: "1"});
+        res.status(200).render('login.ejs', {flag: "1"});
     }
 });
 
 /**
- * intercepts request POST searching a neame 
+ * intercepts request POST searching a name 
  * checks if there was some parameter inserted, if show an error
  * else redirect on a page which shows a list with places 
  * which name pattern machings the string inserted
@@ -207,23 +212,25 @@ app.post("/search", function(req, res){
                         }
                     }
                     
+                    //response 
+                    res.set('Content-Type', 'text/html');
                     switch(r){
                         case "0":
                             //there are no rows after query
-                            res.render('error.ejs',{
+                            res.status(404).render('error.ejs',{
                                 message: "We apologize but we don't find any data that match you search. But maybe the place which you're searching exists but you typed another name. Try navigate the site to find your place!"
                             });
                             break;
                         case "1":
                             //there is a result after query
-                            res.render('places.ejs',{
+                            res.status(200).render('places.ejs',{
                                 libraries: result.rows
                                 });
                             console.log("sent Data");
                             break;
                         case "-1":
                             //there are no rows after query
-                            res.render('error.ejs',{
+                            res.status(500).render('error.ejs',{
                                 message: "We have some problems with the server! Come back later to see if problems will be fixed!"
                             });
                             break;
@@ -232,14 +239,14 @@ app.post("/search", function(req, res){
             });
             
         }else{
-            //there are no rows after query
-            res.render('error.ejs',{
+            res.set('Content-Type', 'text/html');
+            res.status(400).render('error.ejs',{
                 message: "You didn't insert no word in the field. Check it and try again!"
             });
         }
     }else{
-        //there are no rows after query
-        res.render('error.ejs',{
+        res.set('Content-Type', 'text/html');
+        res.status(400).render('error.ejs',{
             message: "You didn't insert no word in the field. Check it and try again!"
         });
     }
@@ -254,6 +261,8 @@ app.post("/login", function(req, res){
     var username = "undefined";
     var password = "undefined";
     var response = "OK";
+    res.set('Content-Type', 'text/html');
+    
     if( typeof req.body!='undefined' && req.body){
         //read the content of the post and check it
         //if query is defined and not null
@@ -313,7 +322,7 @@ app.post("/login", function(req, res){
                 }else{
                     //admin doesn't exist
                     //redirect to login page
-                    res.render('login.ejs',{flag: '-1'});
+                    res.status(404).render('login.ejs',{flag: '-1'});
                 }
             });
         });
@@ -321,13 +330,13 @@ app.post("/login", function(req, res){
         //User or Pass not inserted
         //admin doesn't exist
         //redirect to login page
-        res.render('login.ejs', {flag: '-1'})
+        res.status(400).render('login.ejs', {flag: '-1'})
     }    
 })
 
 /*
  * intercepts POST request to /placeUpload that contains infos to insert a new place in DB
- * 
+ * insert a new place in DB and returns a message on the views about the inserting action
  */
 app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) {
     // req.file is the `placePhoto` file 
@@ -344,7 +353,8 @@ app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) 
         text = text + "file; ";
     }
     
-    // req.body will contain the text fields, if there were any 
+    res.set('Content-Type', 'text/html');
+    // req.body will contain the text fields, if there are any 
     //variable message to send back to the requester
     var response = "-1";
     //variables nedded for update
@@ -397,7 +407,7 @@ app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) 
             console.log(text);
             
             //redirect to the page with a message
-            res.render('insert.ejs', {
+            res.status(400).render('insert.ejs', {
                 where: "1",
                 newsMessage: "1",
                 placeMessage: text,
@@ -457,7 +467,32 @@ app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) 
                     if (r=="1"){
                         rendering.renderMessageInsert(res, "1", "1", "OK", "1", "1");
                     }else{
-                        rendering.renderMessageInsert(res, "1", "1", text, "1", "1");
+                        //redirect to the page with a message
+                        res.status(500).render('insert.ejs', {
+                            where: "1",
+                            newsMessage: "1",
+                            placeMessage: "Place not inserted due to DB errors. We apologie, try again later!",
+                            eventMessage: "1",
+                            flag: "1",
+                            title: "",
+                            desc: "",
+                            data: "",
+                            hour: "",
+                            place: "",
+                            placeName: name,
+                            placeAddress: address,
+                            placeHistory: history,
+                            placeType: type,
+                            placeInfo: info,
+                            eventName: "",
+                            eventAddress: "",
+                            eventData : "",
+                            eventHours: "",
+                            eventDescription: "",
+                            eventCost: "",
+                            eventPlace: "",
+                            eventType: ""
+                        });
                     }
                     
                     
@@ -465,15 +500,40 @@ app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) 
             });
         }    
     }else{
-        //no data sent
-        rendering.renderMessageInsert(res, "1", "1", text, "1", "1");
+        //redirect to the page with a message
+        res.status(400).render('insert.ejs', {
+            where: "1",
+            newsMessage: "1",
+            placeMessage: "Place not inserted because you did not inserted anything in the fields. Please Try again!",
+            eventMessage: "1",
+            flag: "1",
+            title: "",
+            desc: "",
+            data: "",
+            hour: "",
+            place: "",
+            placeName: name,
+            placeAddress: address,
+            placeHistory: history,
+            placeType: type,
+            placeInfo: info,
+            eventName: "",
+            eventAddress: "",
+            eventData : "",
+            eventHours: "",
+            eventDescription: "",
+            eventCost: "",
+            eventPlace: "",
+            eventType: ""
+        });
     }
 });
 
 
 /*
- * intercepts POST request to /newsUpload that contains infos to insert a new place in DB
- * 
+ * intercepts POST request to /newsUpload that contains infos to insert a news in DB
+ * insert news in DB and returns a message on the views about the inserting action
+ *
  */
 app.post("/newsUpload", function(req, res){
     //variable message to send back to the requester
@@ -484,6 +544,8 @@ app.post("/newsUpload", function(req, res){
     var data = "";
     var hour = "";
     var place = "";
+    res.set('Content-Type', 'text/html');
+    
     //check if they sent something that makes sense
     if( typeof req.body!='undefined' && req.body){        
         //check all the fields needed
@@ -521,7 +583,7 @@ app.post("/newsUpload", function(req, res){
             text = text + "- missing - NEWS NOT INSERTED - TRY AGAIN";
             console.log(text);
             //redirect to the inserting page giving a message
-            res.render('insert.ejs',{
+            res.status(400).render('insert.ejs',{
                 where: "2",
                 newsMessage: text,
                 placeMessage: "1",
@@ -573,10 +635,10 @@ app.post("/newsUpload", function(req, res){
                     }
                     
                     if (r == "1"){
-                        rendering.renderMessageInsert(res, "2", "OK", "1", "1", "1");
+                        rendering.renderMessageInsert(res, "2", "OK", "1", "1", "1")
                     }else{
                         //redirect to the inserting page giving a message
-                        res.render('insert.ejs',{
+                        res.status(200).render('insert.ejs',{
                             where: "2",
                             newsMessage: "NEWS not inserted due to DB errors. Try again later!",
                             placeMessage: "1",
@@ -606,11 +668,39 @@ app.post("/newsUpload", function(req, res){
             });
         }    
     }else{
-        //no data sent
-        rendering.renderMessageInsert(res, "2", text, "1", "1", "1");
+        //redirect to the inserting page giving a message
+        res.status(400).render('insert.ejs',{
+            where: "2",
+            newsMessage: "NEWS not inserted because your fields were empty!",
+            placeMessage: "1",
+            eventMessage: "1",
+            title: title,
+            desc: description,
+            data: data,
+            hour: hour,
+            place: place,
+            placeName: "",
+            placeAddress: "",
+            placeHistory: "",
+            placeType: "",
+            placeInfo: "",
+            eventName: "",
+            eventAddress: "",
+            eventData : "",
+            eventHours: "",
+            eventDescription: "",
+            eventCost: "",
+            eventPlace: "",
+            eventType: ""
+        });
     }
 });
 
+/*
+ * intercepts POST request to /eventUpload that contains infos to insert a new event in DB
+ * insert the event in DB and returns a message on the view about the inserting action
+ *
+ */
 app.post('/eventUpload', function(req, res){
     var text = "";
     var name = "";
@@ -621,6 +711,7 @@ app.post('/eventUpload', function(req, res){
     var cost = "";
     var place = "";
     var type = "";
+    res.set('Content-Type', 'text/html');
     
     if (typeof req.body != 'undefined' && req.body){
         //body defined
@@ -697,7 +788,7 @@ app.post('/eventUpload', function(req, res){
             
             //redirect to the page with a message
             //ad pass what inserted in the last iteraction
-            res.render('insert.ejs', {
+            res.status(400).render('insert.ejs', {
                 where: "3",
                 newsMessage: "1",
                 placeMessage: "1",
@@ -750,7 +841,33 @@ app.post('/eventUpload', function(req, res){
                         //redirect to admin page
                         rendering.renderMessageInsert(res, "3", "1", "1", "OK", "1");
                     }else{
-                        rendering.renderMessageInsert(res, "3", "1", "1", "Event not inserted! try again!", "1");
+                        //redirect to the page with a message
+                        //ad pass what inserted in the last iteraction
+                        res.status(200).render('insert.ejs', {
+                            where: "3",
+                            newsMessage: "1",
+                            placeMessage: "1",
+                            eventMessage: "EVENT not inserted due to DB errors",
+                            flag: "1",
+                            title: "",
+                            desc: "",
+                            data: "",
+                            hour: "",
+                            place: "",
+                            placeName: "",
+                            placeAddress: "",
+                            placeHistory: "",
+                            placeType: "",
+                            placeInfo: "",
+                            eventName: name,
+                            eventAddress: address,
+                            eventData : data,
+                            eventHours: hours,
+                            eventDescription: description,
+                            eventCost: cost,
+                            eventPlace: place,
+                            eventType: type
+                        });
                     }
 
                 });
@@ -761,7 +878,31 @@ app.post('/eventUpload', function(req, res){
     }else{
         //body undefined
         //redirect on the page with a message
-        renderMessageInsert(res, "3", "1", "1", "-1", "1");
+        res.status(400).render('insert.ejs', {
+            where: "3",
+            newsMessage: "1",
+            placeMessage: "1",
+            eventMessage: "EVENT not inserted because the fields were empty. Try again!",
+            flag: "1",
+            title: "",
+            desc: "",
+            data: "",
+            hour: "",
+            place: "",
+            placeName: "",
+            placeAddress: "",
+            placeHistory: "",
+            placeType: "",
+            placeInfo: "",
+            eventName: name,
+            eventAddress: address,
+            eventData : data,
+            eventHours: hours,
+            eventDescription: description,
+            eventCost: cost,
+            eventPlace: place,
+            eventType: type
+        });
     }
 });
 
@@ -770,14 +911,15 @@ app.post('/eventUpload', function(req, res){
  * after logged out redirect to the home page
  */
  app.get('/logout',function(req,res){
+    res.set('Content-Type', 'text/html');
     req.session.destroy(function(err) {
       if(err) {
         console.log("SessionERR " + err);
-        res.render('error.ejs',{
+        res.status(500).render('error.ejs',{
             message: "We have some problems with the server! Turn Back later to see if problems will be fixed!"
         });
       }else{
-        res.render('home.ejs',{
+        res.status(200).render('home.ejs',{
             session: "0"
         });
       }

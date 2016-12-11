@@ -1,7 +1,3 @@
-/*
- *  That module helps server to render a view depending on various parameter
- */
-
 //db connection library
 var pg = require('pg');
 //string that allows connection to DB
@@ -15,7 +11,8 @@ var db = pgp(connectionString);
  * @return private admin page
  */
 var renderEmptyInsert = function(res){
-    res.render('insert.ejs', {
+    res.set('Content-Type', 'text/html');
+    res.status(200).render('insert.ejs', {
         where: "1",
         newsMessage: "1",
         placeMessage: "1",
@@ -46,7 +43,8 @@ var renderEmptyInsert = function(res){
  * binds the response on the private admin page and shows a page with some messages about modifies POSTED
  */
 var renderMessageInsert = function(res, where, newsMessage, placeMessage, eventMessage, flag){
-    res.render('insert.ejs', {
+    res.set('Content-Type', 'text/html');
+    res.status(200).render('insert.ejs', {
         where: where,               //tell what tab make active
         newsMessage: newsMessage,   //news tab msg
         placeMessage: placeMessage, //place tab msg
@@ -120,26 +118,28 @@ var renderPlaceByType = function(type, res){
                 //response here 
                 if (check == "1"){
                     //there is a result after query
-                    res.render('places.ejs',{
+                    res.set('Content-Type', 'text/html');
+                    res.status(200).render('places.ejs',{
                         libraries: result.rows
                         });
                     console.log("sent Data");
                 }else if (check =="0"){
                     
                     //there are no rows after query
-                    res.render('error.ejs',{
+                    res.set('Content-Type', 'text/html');
+                    res.status(404).render('error.ejs',{
                         message: message
                     });
                 }else{
-                    //there are no rows after query
-                    res.render('error.ejs',{
+                    //DB error
+                    res.status(500).render('error.ejs',{
                         message: "We have some problems with the server! Turn Back later to see if problems will be fixed!"
                     });
                 }
             });
         }
     );
-}
+};
 
 /**
 * gets all the rows of a table and binds them on a page that shows them
@@ -180,31 +180,32 @@ var renderByTable = function(table, res){
                 }
             }
             
+            res.set('Content-Type', 'text/html');
             //response here to avoid sending req error
             switch (r){
                 case "1":
                     //show the page passing data
-                    res.render(table + '.ejs',{
+                    res.status(200).render(table + '.ejs',{
                         elements: result.rows
                     });
                     console.log("sent Data");
                     break;
                 case "-1":
                     //there are no rows after query
-                    res.render('error.ejs',{
+                    res.status(404).render('error.ejs',{
                         message: message
                     });
                     break;
                 case "0":
                     //there are no rows after query
-                    res.render('error.ejs',{
+                    res.status(500).render('error.ejs',{
                         message: "We have some problems with the server! Turn Back later to see if problems will be fixed!"
                     });
                     break;
             }
         });
     });
-}
+};
 
 /*
  *  get all the place info and redirect on a personalized place for that place
@@ -236,24 +237,25 @@ var renderPlaceById = function(req, res){
                         }
                     }
                     
+                    res.set('Content-Type', 'text/html');
                     //response here to avoid sending req error
                     switch (check){
                         case "1":
                             //show the page passing data
-                            res.render('place.ejs',{
+                            res.status(200).render('place.ejs',{
                                 place: result.rows[0]
                             });
                             console.log("sent Data");
                             break;
                         case "-1":
                             //there are no rows after query
-                            res.render('error.ejs',{
+                            res.status(404).render('error.ejs',{
                                 message: "We apologize but the place that you selected does not exist!"
                             });
                             break;
                         case "0":
                             //there are no rows after query
-                            res.render('error.ejs',{
+                            res.status(500).render('error.ejs',{
                                 message: "We have some problems with the server! Turn Back later to see if problems will be fixed!"
                             });
                             break;
@@ -262,16 +264,17 @@ var renderPlaceById = function(req, res){
             });
             
         }else{
-            res.render('error.ejs',{
+            // 400 - bad request status
+            res.status(400).render('error.ejs',{
                 message: "We apologize but the server recieved no Data! Maybe there is an intern problem. try again Later"
             });
         }
     }else{
-        res.render('error.ejs',{
+        res.status(400).render('error.ejs',{
             message: "We apologize but the server recieved no Data! Maybe there is an intern problem. try again Later"
         });
     }
-}
+};
 
 /*
  * make 2 simultaneus queries to the DB (gets the info to show on the homepage) and render the homepage
@@ -285,20 +288,21 @@ var renderHome  = function(res){
         ]);
     })
     .then(function (data) {
-        // success;        
-        res.render('home.ejs',{
+        // success;       
+        res.set('Content-Type', 'text/html');
+        res.status(200).render('home.ejs',{
             bestplaces: data[0],
             lastnews: data[1]
         });
     })
     .catch(function (error) {
         console.log("ERROR:", error.message || error);
-        res.render('error.ejs',{
+        res.set('Content-Type', 'text/html');
+        res.status(500).render('error.ejs',{
             message: "We apologize, maybe we have some problems with the servers, come back later"
         });
-    });
-    
-}
+    });  
+};
 
 //export functions
 exports.renderHome = renderHome;
