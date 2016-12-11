@@ -23,6 +23,7 @@
 .footer_color{
     background-color: darkgray;
 }
+
 .clearer{
     clear:both;
 }
@@ -70,11 +71,20 @@
     height:200px;
 }
 
-.img-lib2 {
-    width: 330px;
-    height: 230px;
+.thumb-auto{
+    height: auto; 
+    width: auto;
 }
 
+.title-bestweek{
+    padding-bottom: 20px;
+}
+
+.img-bestweek{
+    text-align: center;
+    height: auto; 
+    width: auto;
+}
 
 .btn-bottom{
     position: absolute;

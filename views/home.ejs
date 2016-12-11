@@ -42,13 +42,15 @@
                     <h2>Place of the week</h2>
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
-                        <div class="thumbnail">
+                        <div class="thumbnail thumb-auto">
                             <div class="img-bestweek">
-                                <img class="img-lib2" src="../img/photo/<%=bestplaces[0].photo%>" alt="bestweek photo">
+                                <img class="img-lib2" src="../img/<%=bestplaces[0].photo%>" alt="bestweek photo">
                             </div>
                             
                             <div class="caption">
-                                <h3><%=bestplaces[0].name%></h3>
+                                <div class="title-bestweek">
+                                    <h3><%=bestplaces[0].name%></h3>
+                                </div>
                                 <br>
                                 <form method="POST" action="http://localhost:5000/place">
                                     <input type="hidden" name="placeId" value="<%=bestplaces[0].id%>">
