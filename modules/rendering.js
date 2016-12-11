@@ -180,24 +180,25 @@ var renderByTable = function(table, res){
                 }
             }
             
+            res.set('Content-Type', 'text/html');
             //response here to avoid sending req error
             switch (r){
                 case "1":
                     //show the page passing data
-                    res.render(table + '.ejs',{
+                    res.status(200).render(table + '.ejs',{
                         elements: result.rows
                     });
                     console.log("sent Data");
                     break;
                 case "-1":
                     //there are no rows after query
-                    res.render('error.ejs',{
+                    res.status(404).render('error.ejs',{
                         message: message
                     });
                     break;
                 case "0":
                     //there are no rows after query
-                    res.render('error.ejs',{
+                    res.status(500).render('error.ejs',{
                         message: "We have some problems with the server! Turn Back later to see if problems will be fixed!"
                     });
                     break;
@@ -236,24 +237,25 @@ var renderPlaceById = function(req, res){
                         }
                     }
                     
+                    res.set('Content-Type', 'text/html');
                     //response here to avoid sending req error
                     switch (check){
                         case "1":
                             //show the page passing data
-                            res.render('place.ejs',{
+                            res.status(200).render('place.ejs',{
                                 place: result.rows[0]
                             });
                             console.log("sent Data");
                             break;
                         case "-1":
                             //there are no rows after query
-                            res.render('error.ejs',{
+                            res.status(404).render('error.ejs',{
                                 message: "We apologize but the place that you selected does not exist!"
                             });
                             break;
                         case "0":
                             //there are no rows after query
-                            res.render('error.ejs',{
+                            res.status(500).render('error.ejs',{
                                 message: "We have some problems with the server! Turn Back later to see if problems will be fixed!"
                             });
                             break;
@@ -262,12 +264,13 @@ var renderPlaceById = function(req, res){
             });
             
         }else{
-            res.render('error.ejs',{
+            // 400 - bad request status
+            res.status(400).render('error.ejs',{
                 message: "We apologize but the server recieved no Data! Maybe there is an intern problem. try again Later"
             });
         }
     }else{
-        res.render('error.ejs',{
+        res.status(400).render('error.ejs',{
             message: "We apologize but the server recieved no Data! Maybe there is an intern problem. try again Later"
         });
     }
@@ -285,15 +288,17 @@ var renderHome  = function(res){
         ]);
     })
     .then(function (data) {
-        // success;        
-        res.render('home.ejs',{
+        // success;       
+        res.set('Content-Type', 'text/html');
+        res.status(200).render('home.ejs',{
             bestplaces: data[0],
             lastnews: data[1]
         });
     })
     .catch(function (error) {
         console.log("ERROR:", error.message || error);
-        res.render('error.ejs',{
+        res.set('Content-Type', 'text/html');
+        res.status(500).render('error.ejs',{
             message: "We apologize, maybe we have some problems with the servers, come back later"
         });
     });  
