@@ -11,6 +11,7 @@ var db = pgp(connectionString);
  * @return private admin page
  */
 var renderEmptyInsert = function(res){
+    res.set('Content-Type', 'text/html');
     res.status(200).render('insert.ejs', {
         where: "1",
         newsMessage: "1",
@@ -42,6 +43,7 @@ var renderEmptyInsert = function(res){
  * binds the response on the private admin page and shows a page with some messages about modifies POSTED
  */
 var renderMessageInsert = function(res, where, newsMessage, placeMessage, eventMessage, flag){
+    res.set('Content-Type', 'text/html');
     res.status(200).render('insert.ejs', {
         where: where,               //tell what tab make active
         newsMessage: newsMessage,   //news tab msg
@@ -80,7 +82,6 @@ var renderPlaceByType = function(type, res){
     switch(type){
         case 0: 
             message= "There are no department in ours archieves! Turn back later when we will upload more places!";
-            status = 404;
             break;
         case 1:
             message= "There are no libraries in ours archieves! Turn back later when we will upload more places!";
@@ -117,19 +118,21 @@ var renderPlaceByType = function(type, res){
                 //response here 
                 if (check == "1"){
                     //there is a result after query
-                    res.render('places.ejs',{
+                    res.set('Content-Type', 'text/html');
+                    res.status(200).render('places.ejs',{
                         libraries: result.rows
                         });
                     console.log("sent Data");
                 }else if (check =="0"){
                     
                     //there are no rows after query
-                    res.render('error.ejs',{
+                    res.set('Content-Type', 'text/html');
+                    res.status(404).render('error.ejs',{
                         message: message
                     });
                 }else{
-                    //there are no rows after query
-                    res.render('error.ejs',{
+                    //DB error
+                    res.status(500).render('error.ejs',{
                         message: "We have some problems with the server! Turn Back later to see if problems will be fixed!"
                     });
                 }
