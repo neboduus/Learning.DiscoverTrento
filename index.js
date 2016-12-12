@@ -30,7 +30,7 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 //string that allows connection to DB
-var connectionString = process.env.DATABASE_URL;
+var connectionString = process.env.DATABASE_URL || "postgres://mario:calculator@localhost:5432/discoverdb";
 
 //defining some static content
 app.use("/img", express.static(__dirname + '/img'));
@@ -187,7 +187,7 @@ app.post("/search", function(req, res){
         if(typeof req.body.placesearch != 'undefined' && req.body.placesearch){
             //parameter present
             placeName = req.body.placesearch; 
-            
+            console.log(placeName);
             //select * from place where lower(name) similar to lower('%biblio%%sci%');
             //query DB for info
             pg.connect(
@@ -292,7 +292,7 @@ app.post("/login", function(req, res){
             connectionString, 
             function(err, client, done) {
             //query
-            client.query('SELECT username FROM admin WHERE username=$1::text AND password=$2::text;', [username, password], function(err, result) {
+            client.query('SELECT username FROM admin WHERE username=$1 AND password=$2', [username, password], function(err, result) {
                 //release the client back to the pool
                 done();
                 
