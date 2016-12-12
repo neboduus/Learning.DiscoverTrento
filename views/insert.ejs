@@ -62,41 +62,33 @@
                         </h3>
                         <br>
                         <form id="placeForm" method="POST" enctype="multipart/form-data" action="http://localhost:5000/placeUpload">
-                            <!-- scriptlet to check if a message to user is needed -->
-                            <% if (placeMessage == "1"){ %>
-                                <!-- Nothing -->
-                            <% }else if(placeMessage != "OK"){ %>
-                                <div class="alert alert-danger" role="alert"><%=placeMessage%></div>
-                            <% }else{ %> 
-                                <div class="alert alert-success" role="alert">Place successfully inserted!</div>
-                            <% }; %>
                             
                             <label>
                                 Name:
                             </label><br>
-                            <input type="text" name="placeName" value="<%=placeName %>"><br>
+                            <input id="placeName" type="text" name="placeName"><br>
                             
                             <label>
                                 Address:
                             </label><br>
-                            <input id="place_address" name="placeAddress" type="text" value="<%=placeAddress %>"/><br>
+                            <input id="place_address" name="placeAddress" type="text" /><br>
                             
                             <label>
                                 History:
                             </label><br>
-                            <textarea rows="6" cols="25" type="text" name="placeHistory" ><%=placeHistory %></textarea><br>
+                            <textarea id="placeHistory" rows="6" cols="25" type="text" name="placeHistory" ></textarea><br>
                             
                             <label>
                                 Other Info:
                             </label><br>
-                            <textarea rows="6" cols="25" type="text" name="placeInfo">
+                            <textarea id="placeInfo" rows="6" cols="25" type="text" name="placeInfo">
                                 <%=placeInfo %>
                             </textarea><br>
                             
                             <label>
                                 Type:
                             </label> <br>
-                            <input type="number" name="placeType" min="0" max="3" value="<%=placeType %>">
+                            <input type="number" name="placeType" min="0" max="3">
                             <i>
                                 <br>0 for University Department<br>
                                 1 for Libraries <br>
@@ -109,7 +101,7 @@
                                 Choose a photo:
                             </label>
                             <input type="file" name="placePhoto"><br>
-                            <button id="place_btn" class="btn btn-success" type="submit" >Insert Place</button>
+                            <button id="place_btn" class="btn btn-success" type="button" >Insert Place</button>
                         </form>
                     </div>
                 </div>
