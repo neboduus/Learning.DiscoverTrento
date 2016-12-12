@@ -27,6 +27,7 @@
 .clearer{
     clear:both;
 }
+
 .n_m{
     background: #fff !important;
     border: none;
@@ -71,23 +72,37 @@
     height:200px;
 }
 
-.thumb-auto{
-    height: auto; 
-    width: auto;
+.img-lib2 {
+    width: 330px;
+    height: 230px;
 }
 
-.title-bestweek{
-    padding-bottom: 20px;
-}
-
-.img-bestweek{
-    text-align: center;
-    height: auto; 
-    width: auto;
-}
 
 .btn-bottom{
     position: absolute;
     left:    30px;
     bottom:   30px;
+}
+
+
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+.container {
+   min-height:100%;
+   position:relative;
+}
+
+#body {
+   padding:10px;
+   padding-bottom:60px;   /* Height of the footer */
+}
+.footer {
+   position:relative;
+   bottom:0;
+   width:100%;
+   height:60px;   /* Height of the footer */
 }

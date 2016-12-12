@@ -1,32 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>        
-        <!-- metadata -->  
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Home page of Discover Trento Web-Application">
-        <meta name="author" content="MarianDiaconu">
-        <!-- Favicon -->
-        <link rel="icon" href="img/favicon.ico">
-        
-        <!-- Scripts moved in head of the page due to errors -->
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="     crossorigin="anonymous"></script>
-        <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
-        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>               
-        
-        <!-- Personal styles -->
-        <link rel="stylesheet" href="../css/home.css">
-        
-        <title> Insertion Page </title>
+        <!-- metadata -->
+        <%include ../views/head.ejs %>
     </head>
 
     <body>  
@@ -41,7 +17,7 @@
                 </b> 
                 for the site!<br>
                 *all the fields are required<br>
-                Here you can also: <a href="http://localhost:5000/logout" type="button" class="btn btn-default navbar-btn">Sign out</a>
+                Here you can also: <a href="https://blooming-reef-42377.herokuapp.com/logout" type="button" class="btn btn-default navbar-btn">Sign out</a>
             </div>
             
             <h2>Private Space</h2>
@@ -61,34 +37,40 @@
                             </span>
                         </h3>
                         <br>
-                        <form id="placeForm" method="POST" enctype="multipart/form-data" action="http://localhost:5000/placeUpload">
+                        <form id="placeForm" method="POST" enctype="multipart/form-data" action="https://blooming-reef-42377.herokuapp.com/placeUpload">
+                            <!-- scriptlet to check if a message to user is needed -->
+                            <% if (placeMessage == "1"){ %>
+                                <!-- Nothing -->
+                            <% }else if(placeMessage != "OK"){ %>
+                                <div class="alert alert-danger" role="alert"><%=placeMessage%></div>
+                            <% }else{ %> 
+                                <div class="alert alert-success" role="alert">Place successfully inserted!</div>
+                            <% }; %>
                             
                             <label>
                                 Name:
                             </label><br>
-                            <input id="placeName" type="text" name="placeName"><br>
+                            <input type="text" name="placeName" value="<%=placeName %>" maxlength="50"/><br>
                             
                             <label>
                                 Address:
                             </label><br>
-                            <input id="place_address" name="placeAddress" type="text" /><br>
+                            <input id="place_address" name="placeAddress" type="text" value="<%=placeAddress %>" maxlength="200"/><br>
                             
                             <label>
                                 History:
                             </label><br>
-                            <textarea id="placeHistory" rows="6" cols="25" type="text" name="placeHistory" ></textarea><br>
+                            <textarea rows="6" cols="25" type="text" name="placeHistory" ><%=placeHistory %></textarea><br>
                             
                             <label>
                                 Other Info:
                             </label><br>
-                            <textarea id="placeInfo" rows="6" cols="25" type="text" name="placeInfo">
-                                <%=placeInfo %>
-                            </textarea><br>
+                            <textarea rows="6" cols="25" type="text" name="placeInfo"><%=placeInfo %></textarea><br>
                             
                             <label>
                                 Type:
                             </label> <br>
-                            <input type="number" name="placeType" min="0" max="3">
+                            <input type="number" name="placeType" min="0" max="3" value="<%=placeType %>">
                             <i>
                                 <br>0 for University Department<br>
                                 1 for Libraries <br>
@@ -101,7 +83,7 @@
                                 Choose a photo:
                             </label>
                             <input type="file" name="placePhoto"><br>
-                            <button id="place_btn" class="btn btn-success" type="button" >Insert Place</button>
+                            <button id="place_btn" class="btn btn-success" type="submit" >Insert Place</button>
                         </form>
                     </div>
                 </div>
@@ -111,7 +93,7 @@
                       <div class="thumbnail">
                         <h3><span class="label label-default">Insert News</span></h3>
                         <br>
-                        <form id="news_form" method="POST" action="http://localhost:5000/newsUpload">
+                        <form id="news_form" method="POST" action="https://blooming-reef-42377.herokuapp.com/newsUpload">
                             <!-- check if a message is needed -->
                             <% if (newsMessage == "1"){ %>
                                 <!-- Nothing -->
@@ -124,7 +106,7 @@
                             <label>
                                 Title:
                             </label><br>
-                            <input type="text" name="title" id="title" value="<%=title%>"><br>
+                            <input type="text" name="title" id="title" value="<%=title%>" maxlength="45"><br>
                             
                             <label>
                                 Description:
@@ -136,17 +118,17 @@
                             <label>
                                 Date:
                             </label><br>
-                            <input type="text" name="data" id="data" value="<%=data%>"><br>
+                            <input type="text" name="data" id="data" value="<%=data%>" maxlength="19"><br>
                             
                             <label>
                                 Hour:
                             </label><br>
-                            <input type="text" name="hour" id="hour" value="<%=hour%>"><br>
+                            <input type="text" name="hour" id="hour" value="<%=hour%>" maxlength="19"><br>
                             
                             <label>
                                 Place Name:
                             </label><br>
-                            <input type="text" name="place" id="place" value="<%=place%>"><br>
+                            <input type="text" name="place" id="place" value="<%=place%>" maxlength="45"><br>
                             <br><br>
                             <button id="news_btn" class="btn btn-success" type="submit" >
                                 Insert News
@@ -160,35 +142,35 @@
                     <div class="thumbnail">
                         <h3><span class="label label-default">Insert an Event</span></h3>
                         <br>
-                        <form method="POST" id="eventForm" action="http://localhost:5000/eventUpload">
+                        <form method="POST" id="eventForm" action="https://blooming-reef-42377.herokuapp.com/eventUpload">
                             <!-- check if a message is needed -->
                             <% if (eventMessage == "1"){ %>
                             <!-- Nothing -->
                             <% }else if(eventMessage != "OK"){ %>
                                 <div class="alert alert-danger" role="alert"><%=eventMessage%></div>
                             <% }else{ %> 
-                                <div class="alert alert-success" role="alert">News successfully inserted!</div>
+                                <div class="alert alert-success" role="alert">Event successfully inserted!</div>
                             <% }; %>
 
                             <label>
                                 Name:
                             </label><br>
-                            <input type="text" name="eventName" value="<%=eventName%>"><br>
+                            <input type="text" name="eventName" value="<%=eventName%>" maxlength="95"><br>
                             
                             <label>
                                 Address:
                             </label><br>
-                            <input type="text" name="eventAddress" value="<%=eventAddress%>"><br>
+                            <input type="text" name="eventAddress" value="<%=eventAddress%>" maxlength="195"><br>
                             
                             <label>
                                 Date:
                             </label><br>
-                            <input type="text" name="eventData" value="<%=eventData%>"><br>
+                            <input type="text" name="eventData" value="<%=eventData%>" maxlength="100"><br>
                             
                             <label>
                                 Hours Range:
                             </label><br>
-                            <input type="text" name="eventHours" value="<%=eventHours%>"><br>
+                            <input type="text" name="eventHours" value="<%=eventHours%>" maxlength="95"><br>
                             
                             <label>
                                 Description:
@@ -200,17 +182,17 @@
                             <label>
                                 Cost:
                             </label><br>
-                            <input type="text" name="eventCost" value="<%=eventCost%>"><br>
+                            <input type="text" name="eventCost" value="<%=eventCost%>" maxlength="40"/><br>
                             
                             <label>
                                 Place Name:
                             </label><br>
-                            <input type="text" name="eventPlace" value="<%=eventPlace%>"><br>
+                            <input type="text" name="eventPlace" value="<%=eventPlace%>" maxlength="40"/><br>
                             
                             <label>
                                 Type:
                             </label><br>
-                            <input type="number" name="eventType" min="0" max="4" value="<%=eventType%>">
+                            <input type="number" name="eventType" min="0" max="4" value="<%=eventType%>"/>
                             <i>
                                 <br>0 for University Event<br>
                                 1 for Politics <br>
@@ -229,6 +211,8 @@
         
         <br><br><br>
         <% include ../views/footer.ejs %>
+        <!-- Scripts -->
+        <%include ../views/tail.ejs %>
     </body>
 
 </html>

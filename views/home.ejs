@@ -1,20 +1,8 @@
 <!DOCTYPE html>
 <html> 
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Discover Trento Places</title>
-        <meta name="description" content="Home page of Discover Trento Web-Application">
-        <meta name="author" content="MarianDiaconu">
-        <!-- Favicon -->
-        <link rel="icon" href="img/favicon.ico">
-        <!-- Bootstrap Latest compiled and minified CSS -->
-        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Custom styles from bootstrap -->
-        <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
-        <!-- Personal styles -->
-        <link rel="stylesheet" href="../css/home.css">
+        <!-- metadata -->
+        <%include ../views/head.ejs %>
     </head>
     
     <body>
@@ -42,17 +30,15 @@
                     <h2>Place of the week</h2>
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
-                        <div class="thumbnail thumb-auto">
+                        <div class="thumbnail">
                             <div class="img-bestweek">
                                 <img class="img-lib2" src="../img/<%=bestplaces[0].photo%>" alt="bestweek photo">
                             </div>
                             
                             <div class="caption">
-                                <div class="title-bestweek">
-                                    <h3><%=bestplaces[0].name%></h3>
-                                </div>
+                                <h3><%=bestplaces[0].name%></h3>
                                 <br>
-                                <form method="POST" action="http://localhost:5000/place">
+                                <form method="POST" action="https://blooming-reef-42377.herokuapp.com/place">
                                     <input type="hidden" name="placeId" value="<%=bestplaces[0].id%>">
                                     <p>
                                         <button class="btn btn-primary btn-bottom" type="submit">Details</button>
@@ -66,7 +52,9 @@
                 
                 <div class="col-md-6">
                     <h2>Weather</h2>
+                    
                     <iframe style="max-width:100%; max-height:100%;" src="https://www.meteoblue.com/en/weather/widget/three?geoloc=detect&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=image"  frameborder="0" scrolling="NO" allowtransparency="true" sandbox="allow-same-origin allow-scripts allow-popups" style="width: 460px;height: 593px"></iframe>
+                    
                 </div>               
             </div>
             
@@ -99,8 +87,7 @@
         <br><br><br>
         <% include ../views/footer.ejs %>
     
-        <!-- Bootstrap javascript -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+        <!-- Scripts -->
+        <%include ../views/tail.ejs %>
     </body>
 </html>
