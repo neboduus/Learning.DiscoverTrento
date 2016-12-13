@@ -14,5 +14,9 @@ Features:
 	-See news
 2) As an admin
 	-Log in (button on the footer)
+		!!! note that there is no Register button !!!
+		so if you want to log in use: 
+			USERNAME: nepotu
+			PASSWORD: calculator
 	-Insert new Places, Events, News
 	-Log out (button in the private page)
