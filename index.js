@@ -56,7 +56,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //set host for views
-app.locals.host = "http://localhost:5000";
+app.locals.host = "https://blooming-reef-42377.herokuapp.com";
 
 /**
  * @brief binds to home page
