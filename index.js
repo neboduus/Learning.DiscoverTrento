@@ -55,6 +55,9 @@ app.set('port', (process.env.PORT || 5000));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//set host for views
+app.locals.host = "http://localhost:5000";
+
 /**
  * @brief binds to home page
  * @return the first page of the app
@@ -69,9 +72,13 @@ app.get('/', function(req, res) {
  */
 app.get('/categories', function(req, res){
     res.set('Content-Type', 'text/html');
+<<<<<<< HEAD
     res.status(200).render('categories.ejs',{
         req: req
     });
+=======
+    res.status(200).render('categories.ejs');
+>>>>>>> dev
 });
 
 /**
@@ -80,9 +87,13 @@ app.get('/categories', function(req, res){
  */
 app.get('/university', function(req, res){
     res.set('Content-Type', 'text/html');
+<<<<<<< HEAD
     res.status(200).render('university.ejs',{
         req: req
     });
+=======
+    res.status(200).render('university.ejs');
+>>>>>>> dev
 });
 
 /**
@@ -90,6 +101,7 @@ app.get('/university', function(req, res){
  * @return a page with 2 categories of city places -> Monuments and squares
  */
 app.get('/city', function(req, res){
+    res.set('Content-Type', 'text/html');
     res.render('city.ejs');
 });
 
@@ -168,7 +180,11 @@ app.get("/login", function(req, res){
     }else{
         res.set('Content-Type', 'text/html');
         //if no session redirect to login
+<<<<<<< HEAD
         res.status(200).render('login.ejs', {flag: "1"});
+=======
+        res.status(201).render('login.ejs', {flag: "1"});
+>>>>>>> dev
     }
 });
 
@@ -919,9 +935,13 @@ app.post('/eventUpload', function(req, res){
             message: "We have some problems with the server! Turn Back later to see if problems will be fixed!"
         });
       }else{
+<<<<<<< HEAD
         res.status(200).render('home.ejs',{
             session: "0"
         });
+=======
+        res.status(200).render('home.ejs');
+>>>>>>> dev
       }
     });
  });
