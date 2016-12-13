@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<%=host%>/">
+            <a class="navbar-brand" href="https://blooming-reef-42377.herokuapp.com/">
                 Discover Trento 
                 <small>
                     and surroundings 
@@ -16,7 +16,7 @@
             </a>
         </div>        
         <div id="navbar" class="navbar-collapse collapse">            
-            <form method="post" action="<%=host%>" class="navbar-form navbar-right">                
+            <form method="post" action="https://blooming-reef-42377.herokuapp.com/search" class="navbar-form navbar-right">                
                 <div class="input-group">
                     <input name="placesearch" type="text" class="form-control" placeholder="Search for...">
                     <span class="input-group-btn">
@@ -25,13 +25,13 @@
                         </button>
                     </span>
                 </div>        
-                <a type="button" href="<%=host%>/categories" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                <a type="button" href="https://blooming-reef-42377.herokuapp.com/categories" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
                     Places
                 </a>        
-                <a type="button" href="<%=host%>/events" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                <a type="button" href="https://blooming-reef-42377.herokuapp.com/events" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
                     Events
                 </a>        
-                <a type="button" href="<%=host%>/news" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                <a type="button" href="https://blooming-reef-42377.herokuapp.com/news" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
                     News
                 </a>            
             </form>

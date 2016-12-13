@@ -12,7 +12,7 @@
             <br>
             <div class="alert alert-info" role="alert"><b>Admin login only!</b> <small>normal users are not allowed</small></div>
             
-            <form id="logForm" method="POST" action="<%=host%>/login">
+            <form id="logForm" method="POST" action="https://blooming-reef-42377.herokuapp.com/login">
                 <br>
                 <div class="input-group">
                     <span class="input-group-addon" id="basic-addon2"></span>

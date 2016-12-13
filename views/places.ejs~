@@ -29,7 +29,7 @@
                                     <div class="caption">
                                         <h3><%=l.name%></h3>
 
-                                        <form method="POST" action="<%=host%>/place">
+                                        <form method="POST" action="https://blooming-reef-42377.herokuapp.com/place">
                                             <input type="hidden" name="placeId" value="<%=l.id%>">
                                             <p>
                                                 <button class="btn btn-primary btn-bottom" type="submit">Details</button>
