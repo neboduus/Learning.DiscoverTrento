@@ -1,0 +1,314 @@
+swagger: '2.0'
+info:
+  title: Discover Trento Application API
+  description: This app helps students and travellers to discover places, events and news of Trento city
+  version: "1.0.0"
+
+host: blooming-reef-42377.herokuapp.com
+
+schemes:
+  - https
+
+basePath: /v1
+produces:
+  - application/json
+  - text
+paths:
+  /:
+    get:
+      summary: Home Page
+      description: The root/ endpoint returns information about the place of the week and last 3 news inserted in the DB. Shows also the home page with the previous information
+      responses:
+        200:
+          description: Everything was OK, server send all the infos(2 array of JSON) and then render the html page
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/place'
+	500:
+	  description: Some problems with the servers, redirect to the Error page
+
+            
+  
+  /search:
+    post:
+      summary: Searching a place
+      description: Given a place name to search tries to find all the places in the DB that matches it
+      parameters:
+        - name: placeName
+          in: formData
+          description: a string of the name of the place that want to search
+          required: true
+          type: string
+      responses:
+        200:
+          description: Everything OK, send data and show them on the page
+	  schema:
+            type: array
+            items:
+              $ref: '#/definitions/place'
+        404:
+	  description: There is no place name that matches the string
+        500:
+          description: Internal Error, render an Error page
+            
+            
+  /categories:
+    get:
+      summary: Place categories
+      description: Shows categories of places available
+      responses:
+        200:
+          description: Everything went well, render a page with the categories
+            
+  /university:
+    get:
+      summary: University categories
+      description: Shows to the user the categories of university places available
+      responses:
+        200:
+          description: Everything went well, render a page with the categories
+
+            
+  /city:
+    get:
+      summary: City categories
+      description: Shows to the user the categories of City places available
+      responses:
+        200:
+          description: A view with the categories
+            
+  /departments:
+    get:
+      summary: Departments of unitn
+      description: Shows to the user the departments of unitn
+      responses:
+        200:
+          description: Everything OK, server sent Departments and then shows them on a page
+	  schema:
+            type: array
+            items:
+              $ref: '#/definitions/place'
+        404:
+	  description: There are no departments, render an Information page
+        500:
+          description: Internal Error, render an Error page
+	
+  /libraries:
+    get:
+      summary: Libraries of Trento
+      description: Shows to the user all the libraries available
+      responses:
+        200:
+          description: verything OK, server sent Libraries and then shows them on a page
+	  schema:
+            type: array
+            items:
+              $ref: '#/definitions/place'
+        404:
+	  description: There are no libraries, render an Information page
+        500:
+          description: Internal Error, render an Error page
+
+  /squares:
+    get:
+      summary: Squares of Trento
+      description: Shows to the user all the squares available
+      responses:
+        200:
+          description: verything OK, server sent Squares and then shows them on a page
+	  schema:
+            type: array
+            items:
+              $ref: '#/definitions/place'
+        404:
+	  description: There are no Squares, render an Information page
+        500:
+          description: Internal Error, render an Error page
+
+  /monuments:
+    get:
+      summary: Monuments of Trento
+      description: Shows to the user all the monuments available
+      responses:
+        200:
+          description: verything OK, server sent Monuments and then shows them on a page
+	  schema:
+            type: array
+            items:
+              $ref: '#/definitions/place'
+        404:
+	  description: There are no monuments, render an Information page
+        500:
+          description: Internal Error, render an Error page
+            
+  /events:
+    get:
+      summary: Events of Trento
+      description: Shows to the user all the events available
+      responses:
+        200:
+          description: verything OK, server sent events and then shows them on a page
+	  schema:
+            type: array
+            items:
+              $ref: '#/definitions/event'
+        404:
+	  description: There are no events, render an Information page
+        500:
+          description: Internal Error, render an Error page
+
+  /news:
+    get:
+      summary: Events of Trento
+      description: Shows to the user all the events available
+      responses:
+        200:
+          description: verything OK, server sent events and then shows them on a page
+	  schema:
+            type: array
+            items:
+              $ref: '#/definitions/news'
+        404:
+	  description: There are no news, render an Information page
+        500:
+          description: Internal Error, render an Error page
+
+  /place:
+    post:
+      summary: Page of a place
+      description: Given a place ID, shows the page with the place's informations
+      parameters:
+        name: placeId
+        in: query
+        description: unique identificator of a place
+        required: true
+        type: number
+        format: integer
+      responses:
+        200:
+          description: verything OK, server sent place's infos and then shows them on a page
+	  schema:
+            type: array
+            items:
+              $ref: '#/definitions/place'
+        404:
+	  description: There are no news, render an Information page
+        500:
+          description: Internal Error, render an Error page
+
+  /login:
+    get:
+      summary: Skip or not Login Page
+      description: redirect the response to the login page if not logged in, redirect to manage site info page if already logged in
+      parameters:
+      - name: session
+        in: request
+        description: unique identificator of a place
+        required: false
+        type: object
+      responses:
+        200:
+	  description: Admin was already logged in so redirect to manage site infos page (insert.ejs)
+        201:
+          description: Admin was not logged in so redirect to login page
+    post:
+      summary: Log in the Admin
+      description: Logs the admin in and set a session, after that redirect to Manage Site Infos Page (insert.ejs)
+      parameters:
+      - name: user
+        in: query
+        description: username of the Admin
+        required: true
+        type: string
+      - name: psw
+        in: query
+        description: password of the Admin
+        required: true
+        type: string
+      responses:
+        200:
+          description: Username and Password OK, server set the session and redirect to Manage Site Infos Page (insert.ejs)
+        404:
+	  description: render an Information Page that inform user that him credentials doesn't exist
+        500:
+          description: Internal Error, render an Error page
+  
+            
+definitions:
+  place:
+    properties:
+      id:
+        type: string
+        description: Unique identifier representing a specific place
+      name:
+        type: string
+        description: name of the place.
+      address:
+        type: string
+        description: address of that place.
+      history:
+        type: string
+        description: history of that place
+      info:
+        type: string
+        description: more information about that place, like hours table
+      type:
+        type: string
+        description: type of the place universityPlace, CityPlace, ecc
+      photo:
+        type: string
+        description: name of the file that belongs in /img
+
+  event:
+    properties:
+      id:
+        type: string
+        description: Unique identifier representing a specific event
+      name:
+        type: string
+        description: name of the event.
+      address:
+        type: string
+        description: address of that event's place.
+      data:
+        type: string
+        description: date of that event
+      hour_range:
+        type: string
+        description: what hour is the event
+      description:
+        type: string
+        description: description of the event    
+      cost:
+        type: string
+        description: cost of the event
+      place_name:
+        type: string
+        description: name of the event's place
+      type:
+        type: string
+        description: type of the event(Politics, Economics, Cultural, Music, Teenagers.. ecc)
+
+  news:
+    properties:
+      id:
+        type: string
+        description: Unique identifier representing specific news
+      title:
+        type: string
+        description: title of specific news
+      description:
+        type: string
+        description: description of the event    
+      data:
+        type: string
+        description: date of news
+      hour:
+        type: string
+        description: hour of news if known
+      place_name:
+        type: string
+        description: place name of the place where news happened
+
+
