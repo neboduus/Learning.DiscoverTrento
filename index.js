@@ -72,13 +72,7 @@ app.get('/', function(req, res) {
  */
 app.get('/categories', function(req, res){
     res.set('Content-Type', 'text/html');
-<<<<<<< HEAD
-    res.status(200).render('categories.ejs',{
-        req: req
-    });
-=======
     res.status(200).render('categories.ejs');
->>>>>>> dev
 });
 
 /**
@@ -87,13 +81,7 @@ app.get('/categories', function(req, res){
  */
 app.get('/university', function(req, res){
     res.set('Content-Type', 'text/html');
-<<<<<<< HEAD
-    res.status(200).render('university.ejs',{
-        req: req
-    });
-=======
     res.status(200).render('university.ejs');
->>>>>>> dev
 });
 
 /**
@@ -180,11 +168,7 @@ app.get("/login", function(req, res){
     }else{
         res.set('Content-Type', 'text/html');
         //if no session redirect to login
-<<<<<<< HEAD
-        res.status(200).render('login.ejs', {flag: "1"});
-=======
         res.status(201).render('login.ejs', {flag: "1"});
->>>>>>> dev
     }
 });
 
@@ -935,13 +919,7 @@ app.post('/eventUpload', function(req, res){
             message: "We have some problems with the server! Turn Back later to see if problems will be fixed!"
         });
       }else{
-<<<<<<< HEAD
-        res.status(200).render('home.ejs',{
-            session: "0"
-        });
-=======
         res.status(200).render('home.ejs');
->>>>>>> dev
       }
     });
  });
