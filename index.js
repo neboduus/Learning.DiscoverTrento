@@ -73,7 +73,7 @@ app.get('/university', function(req, res){
  */
 app.get('/city', function(req, res){
     res.set('Content-Type', 'text/html');
-    res.render('city.ejs');
+    res.status(200).render('city.ejs');
 });
 
 /*
