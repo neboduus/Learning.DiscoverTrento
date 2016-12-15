@@ -11,7 +11,7 @@ $(document).ready(function(){
         if (title==="" || desc==="" || data==="" || hour==="" || place===""){
             alert("Fai attenzione forse mancano dei campi!");
         }else{
-            $.post("http://localhost:5000/newsUpload",
+            $.post("https://blooming-reef-42377.herokuapp.com/newsUpload",
             {
                 title: title,
                 desc: desc,
@@ -56,7 +56,7 @@ $(document).ready(function(){
             || eventDesc==="" || eventCost==="" || eventPlace==="" || eventType===""){
             alert("Fai attenzione forse mancano dei campi!");
         }else{
-            $.post("http://localhost:5000/eventUpload",
+            $.post("https://blooming-reef-42377.herokuapp.com/eventUpload",
             {
                 eventName: eventName,
                 eventAddress: eventAddress,
@@ -99,7 +99,7 @@ $(document).ready(function(){
         if (placeName==="" || placeAddress==="" || placeHistory==="" || placeType===""){
             alert("Fai attenzione forse mancano dei campi!");
         }else{
-            $.post("http://localhost:5000/placeUpload",
+            $.post("https://blooming-reef-42377.herokuapp.com/placeUpload",
             {
                 placeName: placeName,
                 placeInfo: placeInfo,
