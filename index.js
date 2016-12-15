@@ -1,7 +1,5 @@
 //utility lib
 var util = require('util');
-//for binding in the template
-var bind = require('bind');
 //express lib
 var express = require('express');
 //connect DB
@@ -14,23 +12,8 @@ var session = require('express-session')
 var rendering = require('./modules/rendering.js');
 //required to parse request bodies - POST and JSON
 var bodyParser = require('body-parser');
-//for managing uploads
-var multer  = require('multer');
-
-//setting a disk storage
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        //set folder
-        cb(null, 'img')
-    },
-    filename: function (req, file, cb) {
-        //set how to rename
-        cb(null, Date.now() + '.jpg') //Appending .jpg
-    }
-});
-var upload = multer({ storage: storage });
 //string that allows connection to DB
-var connectionString = process.env.DATABASE_URL;
+var connectionString = process.env.DATABASE_URL || "postgres://mario:calculator@localhost:5432/discoverdb";
 
 //defining some static content
 app.use("/img", express.static(__dirname + '/img'));
@@ -291,6 +274,7 @@ app.post("/login", function(req, res){
             //enviromentallocal variabile, or heroku one
             connectionString, 
             function(err, client, done) {
+                console.log(username + "+" + password);
             //query
             client.query('SELECT username FROM admin WHERE username=$1::text AND password=$2::text;', [username, password], function(err, result) {
                 //release the client back to the pool
@@ -338,25 +322,10 @@ app.post("/login", function(req, res){
  * intercepts POST request to /placeUpload that contains infos to insert a new place in DB
  * insert a new place in DB and returns a message on the views about the inserting action
  */
-app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) {
-    // req.file is the `placePhoto` file 
-    var text = "";
-    var fileName;
-    if (req.file != 'undefined' && req.file){
-        //file choosed by the user
-        console.log("file choosed and uploaded");
-        fileName = req.file.filename;
-        console.log("new filename: "+fileName);
-    }else{
-        //no file was coosed
-        console.log("no file choosen");
-        text = text + "file; ";
-    }
-    
+app.post('/placeupload', function (req, res, next) {
+    var text = 0;    
     res.set('Content-Type', 'text/html');
     // req.body will contain the text fields, if there are any 
-    //variable message to send back to the requester
-    var response = "-1";
     //variables nedded for update
     var name;
     var address;
@@ -365,73 +334,45 @@ app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) 
     var type;
     //check if they sent something that makes sense
     if( typeof req.body!='undefined' && req.body){
-        //check all the fields needed   
-        console.log(req.body.placeName);
-        
+        //check fields needed
         if(typeof req.body.placeName != undefined && req.body.placeName){
             //placeName inserted, get it
             name = req.body.placeName;
         }else{
-            //no name was inserted, let's write the message
-            text = text + "name; ";
+            //no name was inserted
+            text = -1;
         }
         
         if(typeof req.body.placeAddress != 'undefined' && req.body.placeAddress){
             address = req.body.placeAddress;
         }else{
-            text = text + "address; ";
+            text = -1;
         }
         
         if(typeof req.body.placeHistory != 'undefined' && req.body.placeHistory){
             history = req.body.placeHistory;
         }else{
-            text = text + "history; ";
+            text = -1;
         }
         
         if(typeof req.body.placeInfo != 'undefined' && req.body.placeInfo){
             info = req.body.placeInfo;
         }else{
-            text = text + "info; ";
+            text = -1;
         }
         
         if(typeof req.body.placeType != 'undefined' && req.body.placeType){
             type = parseInt(req.body.placeType);
         }else{
-            text = text + "type; ";
+            text = -1;
         }
-        
+
         //if there was an empty field
-        if(text != ""){
+        if(text === -1){
             //complete the message
-            text = text + "missing - PLACE NOT INSERTED - TRY AGAIN";
-            console.log(text);
-            
-            //redirect to the page with a message
-            res.status(400).render('insert.ejs', {
-                where: "1",
-                newsMessage: "1",
-                placeMessage: text,
-                eventMessage: "1",
-                flag: "1",
-                title: "",
-                desc: "",
-                data: "",
-                hour: "",
-                place: "",
-                placeName: name,
-                placeAddress: address,
-                placeHistory: history,
-                placeType: type,
-                placeInfo: info,
-                eventName: "",
-                eventAddress: "",
-                eventData : "",
-                eventHours: "",
-                eventDescription: "",
-                eventCost: "",
-                eventPlace: "",
-                eventType: ""
-            });
+            console.log("could not process the request - parameters missing");
+            //send message to the requester
+            res.status(400).end("-3");
             
         }else{
             //all the parameters was inserted
@@ -439,20 +380,18 @@ app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) 
             
             //let try to insert them in the DB
             pg.connect(
-                //enviromentallocal variabile, or heroku one
+                //enviromental local variabile, or heroku one
                 connectionString, 
                 function(err, client, done) {
                 //query INSERTING a new PLACE
-                    console.log(fileName);
-                client.query('INSERT INTO place(name, address, history, info, type, photo) values ($1::text, $2::text, $3::text, $4::text, $5::int, $6::text);', [name, address, history, info, type, fileName], function(err, result) {
+                client.query('INSERT INTO place(name, address, history, info, type, photo) values ($1::text, $2::text, $3::text, $4::text, $5::int, $6::text);', [name, address, history, info, type, "citta.jpg"], function(err, result) {
                     //release the client back to the pool
                     done();
-                    var resp = "0";
+                    var r = "0";
                     
                     //manages err
                     if (err){ 
-                        console.error(err); 
-                        text = "Database ERROR during INSERT - " + err;
+                        console.error("DB:" + err);
                         r="-1";
                     }else{
                         //corect Insert
@@ -462,70 +401,20 @@ app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) 
                     }
 
                     //response here, otherwise the page will be sent before the execution of the query
-                    //redirect to the page giving the message
-                    
+                    //give msg to requester
                     if (r=="1"){
-                        rendering.renderMessageInsert(res, "1", "1", "OK", "1", "1");
+                        res.status(200).end("1");
                     }else{
-                        //redirect to the page with a message
-                        res.status(500).render('insert.ejs', {
-                            where: "1",
-                            newsMessage: "1",
-                            placeMessage: "Place not inserted due to DB errors. We apologie, try again later!",
-                            eventMessage: "1",
-                            flag: "1",
-                            title: "",
-                            desc: "",
-                            data: "",
-                            hour: "",
-                            place: "",
-                            placeName: name,
-                            placeAddress: address,
-                            placeHistory: history,
-                            placeType: type,
-                            placeInfo: info,
-                            eventName: "",
-                            eventAddress: "",
-                            eventData : "",
-                            eventHours: "",
-                            eventDescription: "",
-                            eventCost: "",
-                            eventPlace: "",
-                            eventType: ""
-                        });
+                        //place insertion failed
+                        res.status(500).end("-1");
                     }
-                    
-                    
+
                 });
             });
         }    
     }else{
         //redirect to the page with a message
-        res.status(400).render('insert.ejs', {
-            where: "1",
-            newsMessage: "1",
-            placeMessage: "Place not inserted because you did not inserted anything in the fields. Please Try again!",
-            eventMessage: "1",
-            flag: "1",
-            title: "",
-            desc: "",
-            data: "",
-            hour: "",
-            place: "",
-            placeName: name,
-            placeAddress: address,
-            placeHistory: history,
-            placeType: type,
-            placeInfo: info,
-            eventName: "",
-            eventAddress: "",
-            eventData : "",
-            eventHours: "",
-            eventDescription: "",
-            eventCost: "",
-            eventPlace: "",
-            eventType: ""
-        });
+        res.status(400).end("-2");
     }
 });
 
@@ -536,8 +425,8 @@ app.post('/placeupload', upload.single('placePhoto'), function (req, res, next) 
  *
  */
 app.post("/newsUpload", function(req, res){
-    //variable message to send back to the requester
-    var text = "";
+    //flag to check fields
+    var text = 0;
     //variables nedded for update
     var title = "";
     var description = "";
@@ -552,65 +441,39 @@ app.post("/newsUpload", function(req, res){
         if( typeof req.body.title != 'undefined' && req.body.title){
             title = req.body.title;
         }else{
-            text = text + "title ";
+            text = -1;
         }       
         
         if(typeof req.body.desc !='undefined' && req.body.desc){
             description = req.body.desc;
         }else{
-            text = text + "description ";
+            text = -1;
         }    
         
         if(typeof req.body.data !='undefined' && req.body.data){
             data = req.body.data;
         }else{
-            text = text + "data ";
+            text = -1;
         }    
         
         if(typeof req.body.hour !='undefined' && req.body.hour){
             hour = req.body.hour;
         }else{
-            text = text + "hour ";
+            text = -1;
         }     
         
         if(typeof req.body.place !='undefined' && req.body.place){
             place = req.body.place;
         }else{
-            text = text + "place ";
+            text = -1;
         }
         
-        if(text != ""){
-            text = text + "- missing - NEWS NOT INSERTED - TRY AGAIN";
-            console.log(text);
-            //redirect to the inserting page giving a message
-            res.status(400).render('insert.ejs',{
-                where: "2",
-                newsMessage: text,
-                placeMessage: "1",
-                eventMessage: "1",
-                title: title,
-                desc: description,
-                data: data,
-                hour: hour,
-                place: place,
-                placeName: "",
-                placeAddress: "",
-                placeHistory: "",
-                placeType: "",
-                placeInfo: "",
-                eventName: "",
-                eventAddress: "",
-                eventData : "",
-                eventHours: "",
-                eventDescription: "",
-                eventCost: "",
-                eventPlace: "",
-                eventType: ""
-            });
+        if(text === -1){
+            console.log("could not process the request - parameters missing");
+            res.status(500).end("-3");
         }else{
             //messagge for the server
             console.log("Paramaters inserting NEWS OK");
-            text = "OK";
             
             //parameters was inserted
             //now connect to DB and insert data
@@ -623,7 +486,7 @@ app.post("/newsUpload", function(req, res){
                              [title, description, data, hour, place], function(err, result) {
                     //release the client back to the pool
                     done();
-                    var r = "0";
+                    var r = "0"; //to check query result
                     //manages err
                     if (err){ 
                         console.error(err); 
@@ -635,64 +498,19 @@ app.post("/newsUpload", function(req, res){
                     }
                     
                     if (r == "1"){
-                        rendering.renderMessageInsert(res, "2", "OK", "1", "1", "1")
+                        //news successfully inserted
+                        res.status(200).end("1");
                     }else{
-                        //redirect to the inserting page giving a message
-                        res.status(200).render('insert.ejs',{
-                            where: "2",
-                            newsMessage: "NEWS not inserted due to DB errors. Try again later!",
-                            placeMessage: "1",
-                            eventMessage: "1",
-                            title: title,
-                            desc: description,
-                            data: data,
-                            hour: hour,
-                            place: place,
-                            placeName: "",
-                            placeAddress: "",
-                            placeHistory: "",
-                            placeType: "",
-                            placeInfo: "",
-                            eventName: "",
-                            eventAddress: "",
-                            eventData : "",
-                            eventHours: "",
-                            eventDescription: "",
-                            eventCost: "",
-                            eventPlace: "",
-                            eventType: ""
-                        });
+                        //news insertion failed
+                        res.status(500).end("-1");
                     }
 
                 });
             });
         }    
     }else{
-        //redirect to the inserting page giving a message
-        res.status(400).render('insert.ejs',{
-            where: "2",
-            newsMessage: "NEWS not inserted because your fields were empty!",
-            placeMessage: "1",
-            eventMessage: "1",
-            title: title,
-            desc: description,
-            data: data,
-            hour: hour,
-            place: place,
-            placeName: "",
-            placeAddress: "",
-            placeHistory: "",
-            placeType: "",
-            placeInfo: "",
-            eventName: "",
-            eventAddress: "",
-            eventData : "",
-            eventHours: "",
-            eventDescription: "",
-            eventCost: "",
-            eventPlace: "",
-            eventType: ""
-        });
+        //body not defined
+        res.status(400).end("-2");
     }
 });
 
@@ -702,7 +520,7 @@ app.post("/newsUpload", function(req, res){
  *
  */
 app.post('/eventUpload', function(req, res){
-    var text = "";
+    var text = 0;
     var name = "";
     var address = "";
     var data = "";
@@ -720,100 +538,74 @@ app.post('/eventUpload', function(req, res){
             //parameter not null -> set field
             name = req.body.eventName;
         }else{
-            //parameter null -> add text mesage
-            text = text + "name; ";
+            //parameter null
+            text = -1;
         }
         
         if(req.body.eventAddress != 'undefined' && req.body.eventAddress){
             //parameter not null -> set field
             address = req.body.eventAddress;
         }else{
-            //parameter null -> add text mesage
-            text = text + "address; ";
+            //parameter null
+            text = -1;
         }
         
         if(req.body.eventData != 'undefined' && req.body.eventData){
             //parameter not null -> set field
             data = req.body.eventData;
         }else{
-            //parameter null -> add text mesage
-            text = text + "date; ";
+            //parameter null
+            text = -1;
         }
         
         if(req.body.eventHours != 'undefined' && req.body.eventHours){
             //parameter not null -> set field
             hours = req.body.eventHours;
         }else{
-            //parameter null -> add text mesage
-            text = text + "hours; ";
+            //parameter null 
+            text = -1;
         }
         
         if(req.body.eventDesc != 'undefined' && req.body.eventDesc){
             //parameter not null -> set field
             description = req.body.eventDesc;
         }else{
-            //parameter null -> add text mesage
-            text = text + "description; ";
+            //parameter null
+            text = -1;
         }
         
          if(req.body.eventCost != 'undefined' && req.body.eventCost){
             //parameter not null -> set field
             cost = req.body.eventCost;
         }else{
-            //parameter null -> add text mesage
-            text = text + "cost; ";
+            //parameter null 
+            text = -1;
         }
-        
         
         if(req.body.eventPlace != 'undefined' && req.body.eventPlace){
             //parameter not null -> set field
             place = req.body.eventPlace;
         }else{
-            //parameter null -> add text mesage
-            text = text + "place; ";
+            //parameter null 
+            text = -1;
         }
         
         if(req.body.eventType != 'undefined' && req.body.eventType){
             //parameter not null -> set field
-            type = parseInt(req.body.evenType);
+            type = parseInt(req.body.eventType);
         }else{
-            //parameter null -> add text mesage
-            text = text + "type; ";
+            //parameter null 
+            text = -1;
         }
         
-        if(text != ""){
-            //complete the message
-            text = text + "missing - EVENT NOT INSERTED - TRY AGAIN";
-            console.log(text);
-            
-            //redirect to the page with a message
-            //ad pass what inserted in the last iteraction
-            res.status(400).render('insert.ejs', {
-                where: "3",
-                newsMessage: "1",
-                placeMessage: "1",
-                eventMessage: text,
-                flag: "1",
-                title: "",
-                desc: "",
-                data: "",
-                hour: "",
-                place: "",
-                placeName: "",
-                placeAddress: "",
-                placeHistory: "",
-                placeType: "",
-                placeInfo: "",
-                eventName: name,
-                eventAddress: address,
-                eventData : data,
-                eventHours: hours,
-                eventDescription: description,
-                eventCost: cost,
-                eventPlace: place,
-                eventType: type
-            });
+        if(text === -1){
+            //complete to server
+            console.log("could not process the request - parameters missing");
+            res.status(500).end("-3");
         }else{
+            
+            console.log(name+" "+address+" "+data+" "+hours+" "+description+" "+cost+" "+place+" "+type);
+            
             //all the fields was inserted
             console.log("Parameters inserting EVENT OK");
             
@@ -838,71 +630,18 @@ app.post('/eventUpload', function(req, res){
                     }
                     
                     if (r=="1"){
-                        //redirect to admin page
-                        rendering.renderMessageInsert(res, "3", "1", "1", "OK", "1");
+                        //event successfully
+                        res.status(200).end("1");
                     }else{
-                        //redirect to the page with a message
-                        //ad pass what inserted in the last iteraction
-                        res.status(200).render('insert.ejs', {
-                            where: "3",
-                            newsMessage: "1",
-                            placeMessage: "1",
-                            eventMessage: "EVENT not inserted due to DB errors",
-                            flag: "1",
-                            title: "",
-                            desc: "",
-                            data: "",
-                            hour: "",
-                            place: "",
-                            placeName: "",
-                            placeAddress: "",
-                            placeHistory: "",
-                            placeType: "",
-                            placeInfo: "",
-                            eventName: name,
-                            eventAddress: address,
-                            eventData : data,
-                            eventHours: hours,
-                            eventDescription: description,
-                            eventCost: cost,
-                            eventPlace: place,
-                            eventType: type
-                        });
+                        //event insertion failed
+                        res.status(500).end("-1");
                     }
-
                 });
             });
-        }
-        
-        
+        }    
     }else{
-        //body undefined
-        //redirect on the page with a message
-        res.status(400).render('insert.ejs', {
-            where: "3",
-            newsMessage: "1",
-            placeMessage: "1",
-            eventMessage: "EVENT not inserted because the fields were empty. Try again!",
-            flag: "1",
-            title: "",
-            desc: "",
-            data: "",
-            hour: "",
-            place: "",
-            placeName: "",
-            placeAddress: "",
-            placeHistory: "",
-            placeType: "",
-            placeInfo: "",
-            eventName: name,
-            eventAddress: address,
-            eventData : data,
-            eventHours: hours,
-            eventDescription: description,
-            eventCost: cost,
-            eventPlace: place,
-            eventType: type
-        });
+        //body not defined
+        res.status(400).end("-2");
     }
 });
 
