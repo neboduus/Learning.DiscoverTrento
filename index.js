@@ -302,7 +302,7 @@ app.post("/login", function(req, res){
                     req.session.username = username;
                     console.log("session inserted")
                     //redirect to private page
-                    rendering.renderEmptyInsert(res);
+                    res.status(200).render('insert.ejs');
                 }else{
                     //admin doesn't exist
                     //redirect to login page
