@@ -147,7 +147,7 @@ app.get("/login", function(req, res){
     //checking for session
     if (typeof sess.username != 'undefined' && sess.username){
         //redirect to manage info page
-        rendering.renderEmptyInsert(res);
+        res.status(200).render('insert.ejs');
     }else{
         res.set('Content-Type', 'text/html');
         //if no session redirect to login

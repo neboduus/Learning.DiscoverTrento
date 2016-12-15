@@ -243,7 +243,5 @@ var renderHome  = function(res){
 //export functions
 exports.renderHome = renderHome;
 exports.renderPlaceById = renderPlaceById;
-exports.renderEmptyInsert = renderEmptyInsert;
-exports.renderMessageInsert = renderMessageInsert;
 exports.renderPlaceByType = renderPlaceByType;
 exports.renderByTable = renderByTable;
