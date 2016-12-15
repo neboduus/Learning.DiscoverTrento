@@ -111,7 +111,7 @@ $(document).ready(function(){
                 switch(data){
                     case "1":
                         alert("Place successfully Inserted");
-                        document.getElementById("eventForm").reset();
+                        document.getElementById("placeForm").reset();
                         break;
                     case "-1":
                         alert("We have some errors with the server and we can not process the inserting now! Please try again Later!");
