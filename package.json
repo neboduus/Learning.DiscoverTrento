@@ -4,7 +4,7 @@
   "description": "an app to discover trento places and surroundings",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/jasmine-node spec"
+    "test": "./node_modules/.bin/jasmine spec/spec.js"
   },
   "repository": {
     "type": "git",
